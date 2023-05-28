@@ -7,10 +7,11 @@ export async function getFeed(baseURL: string, topic: string): Promise<Data> {
   try {
     response = await fetch(`${baseURL}/${topic}`, { next: { revalidate: 900 } });
   } catch (error) {
-    console.log(error)
+    console.log('error', error)
   }
 
 
+  // hibas widget ne jelenjen meg
   if (!response?.ok) {
     console.log('response:', response);
     return null;
@@ -24,5 +25,6 @@ export async function getFeed(baseURL: string, topic: string): Promise<Data> {
   } catch (err) {
     console.log(err)
   }
+
   return result?.['rss']
 }

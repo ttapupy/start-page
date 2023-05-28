@@ -6,14 +6,14 @@ import { twMerge } from 'tailwind-merge'
 
 
 export default async function FeedBox({ source }: { source: SourceType }) {
-
   const data = await getFeed(source.baseURL, source.path);
+  const listLength = 10
 
   if (!data) {
     return null;
   }
 
-  const feedList: Item[] = data?.channel?.item?.slice(0, 10) || []
+  const feedList: Item[] = data?.channel?.item?.slice(0, listLength) || []
   const type = source?.feedType || FeedType.DEFAULT
 
   const colorTypes: Record<FeedType, string> = { [FeedType.DEFAULT]: 'border-zinc-400 text-zinc-400', [FeedType.TECH]: 'border-blue-500 text-blue-500', [FeedType.GASTRO]: 'border-red-600 text-red-600', [FeedType.ENGLISH]: 'border-amber-500 text-amber-500', [FeedType.IT]: 'border-emerald-600 text-emerald-600' }

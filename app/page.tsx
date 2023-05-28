@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import FeedBox from './components/FeedBox'
 import { sources } from './lib/sources'
 
