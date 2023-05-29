@@ -10,6 +10,5 @@ export interface SourceType {
   baseURL: string,
   name: string;
   path: string;
-  ref: string;
   feedType: FeedType
 }

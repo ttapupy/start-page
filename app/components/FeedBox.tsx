@@ -3,16 +3,13 @@ import Feed from "./Feed";
 import { SourceType, FeedType } from "@/common"
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge'
+import ErrorMessage from "./ErrorMessage";
+
 
 
 export default async function FeedBox({ source }: { source: SourceType }) {
   const data = await getFeed(source.baseURL, source.path);
   const listLength = 10
-
-  if (!data) {
-    return null;
-  }
-
   const feedList: Item[] = data?.channel?.item?.slice(0, listLength) || []
   const type = source?.feedType || FeedType.DEFAULT
 
@@ -23,7 +20,7 @@ export default async function FeedBox({ source }: { source: SourceType }) {
   return (
     <div>
       <h4 className="mb-4" ><span className={twMerge(spanClass, clsx({ [colorTypes[type]]: true }))}>{source.name}</span></h4>
-      <Feed feedList={feedList} type={type} />
+      {!!data ? <Feed feedList={feedList} type={type} /> : <ErrorMessage />}
     </div>
   )
 }
