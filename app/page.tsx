@@ -4,11 +4,10 @@ import { cookies } from 'next/headers';
 import FeedSelector from './components/FeedSelector';
 import { revalidatePath } from 'next/cache';
 
-
+let selectedFeeds: string[] = [];
 
 export default async function Home() {
 
-  let selectedFeeds: string[] = [];
   const cookieStore = cookies()
   const feedCookie = cookieStore.get(sourceCookieName)?.value
 
@@ -22,8 +21,8 @@ export default async function Home() {
     "use server";
 
     selectedFeeds = Object.entries(feeds).filter(([_, value]) => value).map(([key, _]) => key)
-    cookies().set(sourceCookieName, JSON.stringify(selectedFeeds))
-
+    // @ts-ignore
+    cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), { sameSite: 'strict', secure: true, httpOnly: true })
     revalidatePath("/")
   }
 
