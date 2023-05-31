@@ -14,10 +14,6 @@
   }
 }
 
-/* html {
-  font-family: var(--font-inter);
-} */
-
 body {
   @apply font-inter dark:font-montserrat bg-papirus dark:bg-stone-800 text-black dark:text-stone-200 bg-opacity-70
 }
