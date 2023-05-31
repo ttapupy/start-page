@@ -40,7 +40,7 @@ export default function Feed({ feedList, type }: { feedList: Item[] | null | und
               href={`${item.link || '#'}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-3 mx-0 text-justify font-semibold hover:underline max-w-[30ch]"
+              className="mb-3 mx-0 text-left font-semibold hover:underline max-w-[30ch]"
 
             >{formatText(item.title, true)}</a>
 
