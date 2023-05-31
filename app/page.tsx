@@ -33,8 +33,8 @@ export default async function Home() {
         <FeedSelector onCheck={onCheck} selectedFeeds={selectedFeeds} />
         <ThemeSwitcher />
       </header>
-      <main className="flex min-h-screen flex-col items-center justify-between px-24 py-6">
-        <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
+      <main className="min-h-screen mx-3 px-auto py-6">
+        <div className="mb-32 flex flex-row flex-wrap items-stretch justify-around text-center lg:mb-0 lg:text-left">
 
           {/* @ts-expect-error Async Server Component */}
           {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).map(([key, value]) => <FeedBox key={key} source={value} />)}

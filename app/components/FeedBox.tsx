@@ -15,11 +15,11 @@ export default async function FeedBox({ source }: { source: SourceType }) {
 
   const colorTypes: Record<FeedType, string> = { [FeedType.DEFAULT]: 'border-zinc-400 text-zinc-400', [FeedType.TECH]: 'border-retro_blue text-retro_blue', [FeedType.GASTRO]: 'border-retro_red text-retro_red', [FeedType.ENGLISH]: 'border-retro_orange text-retro_orange', [FeedType.IT]: 'border-retro_green text-retro_green' }
 
-  const spanClass = "bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-stone-900 dark:text-stone-300 border dark:border-2 border-gray-500"
+  const spanClass = "bg-gray-100 text-gray-800 text-xs font-medium ml-0 mr-2 px-2.5 py-0.5 rounded dark:bg-stone-900 dark:text-stone-300 border dark:border-2 border-gray-500"
 
   return (
-    <div>
-      <h4 className="mb-4" ><span className={twMerge(spanClass, clsx({ [colorTypes[type]]: true }))}>{source.name}</span></h4>
+    <div className="flex-auto min-w-[20ch]">
+      <h4 className="mb-4 flex justify-start" ><span className={twMerge(spanClass, clsx({ [colorTypes[type]]: true }))}>{source.name}</span></h4>
       {!!data ? <Feed feedList={feedList} type={type} /> : <ErrorMessage />}
     </div>
   )
