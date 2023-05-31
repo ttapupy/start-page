@@ -15,12 +15,11 @@ const Checkbox: FC<ICheckboxProps> = ({ selectedFeeds, name, id, register }) => 
 
   return (
     <>
-      <label htmlFor={id} className=''>
+      <label htmlFor={id}>
         {name}
       </label>
       <input
         defaultChecked={selectedFeeds.includes(id)}
-        className="ml-2 rounded ring-slate-400 ring-0 hover:ring-1 focus:ring-0 text-emerald-500 border-0  focus:outline-offset-0 focus:outline-2 focus:outline-slate-500"
         type="checkbox"
         readOnly
         id={id}

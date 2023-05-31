@@ -1,7 +1,19 @@
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter, Montserrat } from 'next/font/google';
+import Provider from './components/Provider'
 
-const inter = Inter({ subsets: ['latin'] })
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+ 
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-montserrat',
+});
 
 export const metadata = {
   title: 'News Feed',
@@ -15,7 +27,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={`${inter.variable} ${montserrat.variable}`}>
+        <Provider>{children}</Provider>
+      </body>
     </html>
   )
 }

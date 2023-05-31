@@ -14,7 +14,27 @@
   }
 }
 
+/* html {
+  font-family: var(--font-inter);
+} */
+
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
+  @apply font-inter dark:font-montserrat bg-papirus dark:bg-stone-800 text-black dark:text-stone-200 bg-opacity-70
+}
+
+header {
+  @apply flex justify-between
+}
+
+li.checkbox-menu {
+  @apply text-gray-600 font-medium py-1 flex justify-between;
+}
+
+li.checkbox-menu>input {
+  @apply ml-2 rounded ring-stone-400 ring-0 hover:ring-1 focus:ring-0 text-retro_green border-0 focus:outline-offset-0 focus:outline-2 focus:outline-stone-500;
+}
+
+li.checkbox-menu:hover>input {
+  @apply ring-1;
+
 }

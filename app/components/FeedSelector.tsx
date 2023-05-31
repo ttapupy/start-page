@@ -32,7 +32,7 @@ export default function FeedSelector({ onCheck, selectedFeeds }: { onCheck: (fee
             {Object.entries(sources).map(([key, value], idx) => {
               const name = value.name
               return (
-                <li key={idx} className="text-gray-600 font-medium py-1 flex justify-between">
+                <li key={idx} className="checkbox-menu">
                   <Checkbox selectedFeeds={selectedFeeds} name={name} id={key} register={register} />
                 </li>
               )
@@ -40,7 +40,7 @@ export default function FeedSelector({ onCheck, selectedFeeds }: { onCheck: (fee
           </ul>
           <button
             type="submit"
-            className="w-20 bg-sky-600 hover:bg-sky-700 disabled:bg-gray-500 inline-flex items-center justify-center rounded mt-4 py-2 px-5 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-4 xl:px-5"
+            className="w-20 bg-retro_blue hover:bg-sky-700 disabled:bg-gray-500 inline-flex items-center justify-center rounded mt-4 py-2 px-5 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-4 xl:px-5"
           >
             {'Save'}
           </button>

@@ -3,6 +3,7 @@ import { sources, sourceCookieName } from './lib/sources'
 import { cookies } from 'next/headers';
 import FeedSelector from './components/FeedSelector';
 import { revalidatePath } from 'next/cache';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 let selectedFeeds: string[] = [];
 
@@ -28,8 +29,11 @@ export default async function Home() {
 
   return (
     <>
-      <FeedSelector onCheck={onCheck} selectedFeeds={selectedFeeds} />
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <header>
+        <FeedSelector onCheck={onCheck} selectedFeeds={selectedFeeds} />
+        <ThemeSwitcher />
+      </header>
+      <main className="flex min-h-screen flex-col items-center justify-between px-24 py-6">
         <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4 lg:text-left">
 
           {/* @ts-expect-error Async Server Component */}

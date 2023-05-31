@@ -13,9 +13,9 @@ export default async function FeedBox({ source }: { source: SourceType }) {
   const feedList: Item[] = data?.channel?.item?.slice(0, listLength) || []
   const type = source?.feedType || FeedType.DEFAULT
 
-  const colorTypes: Record<FeedType, string> = { [FeedType.DEFAULT]: 'border-zinc-400 text-zinc-400', [FeedType.TECH]: 'border-blue-500 text-blue-500', [FeedType.GASTRO]: 'border-red-600 text-red-600', [FeedType.ENGLISH]: 'border-amber-500 text-amber-500', [FeedType.IT]: 'border-emerald-600 text-emerald-600' }
+  const colorTypes: Record<FeedType, string> = { [FeedType.DEFAULT]: 'border-zinc-400 text-zinc-400', [FeedType.TECH]: 'border-retro_blue text-retro_blue', [FeedType.GASTRO]: 'border-retro_red text-retro_red', [FeedType.ENGLISH]: 'border-retro_orange text-retro_orange', [FeedType.IT]: 'border-retro_green text-retro_green' }
 
-  const spanClass = "bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500"
+  const spanClass = "bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-stone-900 dark:text-stone-300 border dark:border-2 border-gray-500"
 
   return (
     <div>
