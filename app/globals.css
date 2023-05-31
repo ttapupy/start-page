@@ -15,7 +15,7 @@
 }
 
 body {
-  @apply font-inter dark:font-montserrat bg-papirus dark:bg-stone-800 text-black dark:text-stone-200 bg-opacity-70
+  @apply font-light_font dark:font-dark_font bg-papirus dark:bg-crt_background text-black dark:text-stone-200 bg-opacity-70
 }
 
 header {

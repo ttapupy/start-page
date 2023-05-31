@@ -23,7 +23,7 @@ export default async function Home() {
 
     selectedFeeds = Object.entries(feeds).filter(([_, value]) => value).map(([key, _]) => key)
     // @ts-ignore
-    cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), { sameSite: 'strict', secure: true, httpOnly: true })
+    cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), { sameSite: 'strict', secure: true, httpOnly: true, overwrite: true })
     revalidatePath("/")
   }
 
@@ -34,10 +34,10 @@ export default async function Home() {
         <ThemeSwitcher />
       </header>
       <main className="min-h-screen mx-3 px-auto py-6">
-        <div className="mb-32 flex flex-row flex-wrap items-stretch justify-around text-center lg:mb-0 lg:text-left">
+        <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center">
 
           {/* @ts-expect-error Async Server Component */}
-          {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).map(([key, value]) => <FeedBox key={key} source={value} />)}
+          {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).sort((a, b) => a[1].name > b[1].name ? 1 : -1).map(([key, value]) => <FeedBox key={key} source={value} />)}
 
         </div>
       </main>

@@ -1,17 +1,27 @@
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge'
-import { FeedType } from "@/common"
+import { FC } from 'react';
+import { FeedCategory } from "@/common"
 import he from 'he'
+import FeedSection from './FeedSection';
+
+interface FeedProps {
+  category: FeedCategory;
+}
+
+type ConditionalFeedProps =
+  | {
+    rssList?: RssItem[];
+    atomList?: never;
+  }
+  | {
+    rssList?: never;
+    atomList?: AtomItem[];
+  };
+
+type FeedIProps = FeedProps & ConditionalFeedProps
 
 
-
-export default function Feed({ feedList, type }: { feedList: Item[] | null | undefined, type: FeedType }) {
-  const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 dark:border-4 border-transparent px-5 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
-
-  const colorTypes: Record<FeedType, string> = { [FeedType.DEFAULT]: 'hover:border-zinc-400', [FeedType.TECH]: 'hover:border-retro_blue', [FeedType.GASTRO]: 'hover:border-retro_red', [FeedType.ENGLISH]: 'hover:border-retro_orange', [FeedType.IT]: 'hover:border-retro_green' }
-
+const Feed: FC<FeedIProps> = ({ category, rssList, atomList }) => {
   const maxTextLength = 140
-
 
   const formatText = (text: string | null | undefined, title = false) => {
     if (text == null) {
@@ -24,31 +34,28 @@ export default function Feed({ feedList, type }: { feedList: Item[] | null | und
     if (title) {
       return decoded.substring(0, maxTextLength)
     }
-    let description = decoded.replace(/(\<\/?\w+\>)|(\\n)/g, "").substring(0, maxTextLength)
+    let description = decoded.replace(/(\<.+?(?=[\>\/])\/?\>)|(\\n)/g, "").substring(0, maxTextLength)
     return description?.length > maxTextLength - 3 ? `${description.replace(/,?\s+\S*$/, "")}...` : description
   }
 
+
+
+
   return (
     <>
-      {feedList?.map((item, idx) => {
+      {rssList && rssList?.map((item, idx) => {
         return (
-          <section
-            className={twMerge(sectionClass, clsx({ [colorTypes[type]]: true }))}
-            key={idx}
-          >
-            <a
-              href={`${item.link || '#'}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mb-3 mx-0 text-left font-semibold hover:underline max-w-[30ch]"
+          <FeedSection key={idx} feedLink={item.link} category={category} feedTitle={item.title} feedDescription={item.description} formatText={formatText} />
+        )
+      })}
 
-            >{formatText(item.title, true)}</a>
-
-            <div className={`my-0 mx-0 max-w-[30ch] text-justify text-sm bg-opacity-50 dark:group-hover:bg-opacity-90`}>{formatText(item.description)}</div>
-
-          </section>
+      {atomList && atomList?.map((item, idx) => {
+        return (
+          <FeedSection key={idx} feedLink={item.id} category={category} feedTitle={item.title} feedDescription={item.summary} formatText={formatText} />
         )
       })}
     </>
   )
 }
+
+export default Feed;

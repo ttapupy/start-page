@@ -1,9 +1,11 @@
 import { XMLParser } from "fast-xml-parser";
 
-export async function getFeed(baseURL: string, topic: string): Promise<Data> {
 
-  // 15 perces frissites
-  return fetch(`${baseURL}/${topic}`, { next: { revalidate: 900 } }).then((response) => {
+
+async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'): Promise<T> {
+
+  // orankenti frissites
+  return fetch(`${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
     if (response.ok) {
       return response;
     }
@@ -22,7 +24,7 @@ export async function getFeed(baseURL: string, topic: string): Promise<Data> {
           return null;
         }
 
-        return result?.['rss']
+        return type === 'rss' ? result?.[type] : result
       }
       return null;
     })
@@ -30,4 +32,12 @@ export async function getFeed(baseURL: string, topic: string): Promise<Data> {
       console.log(error)
       return null;
     });
+}
+
+export async function getRssFeed(baseURL: string, topic: string): Promise<RssData> {
+  return await getFeed<RssData>(baseURL, topic, 'rss');
+}
+
+export async function getAtomFeed(baseURL: string, topic: string): Promise<AtomData> {
+  return await getFeed<AtomData>(baseURL, topic, 'atom');
 }

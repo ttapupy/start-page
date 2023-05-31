@@ -1,8 +1,8 @@
-export enum FeedType {
+export enum FeedCategory {
   DEFAULT = "DEFAULT",
   TECH = "TECH",
   GASTRO = "GASTRO",
-  ENGLISH = "ENGLISH",
+  FRONTEND = "FRONTEND",
   IT = "IT"
 }
 
@@ -10,5 +10,6 @@ export interface SourceType {
   baseURL: string,
   name: string;
   path: string;
-  feedType: FeedType
+  feedCategory: FeedCategory,
+  feedType: 'rss' | 'atom'
 }

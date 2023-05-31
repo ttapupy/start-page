@@ -29,7 +29,7 @@ export default function FeedSelector({ onCheck, selectedFeeds }: { onCheck: (fee
       <nav className={twMerge(navClass, clsx({ 'visible opacity-100 [transition:visibility_0s_ease-out_0s,_opacity_1000ms_ease-out_0s]': showMenu }))} id='menu'>
         <form key='feed-selector' onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center m-3">
           <ul>
-            {Object.entries(sources).map(([key, value], idx) => {
+            {Object.entries(sources).sort((a, b) => a[1].name > b[1].name ? 1 : -1).map(([key, value], idx) => {
               const name = value.name
               return (
                 <li key={idx} className="checkbox-menu">
