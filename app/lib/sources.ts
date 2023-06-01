@@ -7,7 +7,7 @@ export const sources: Record<string, SourceType> =
     baseURL: 'https://telex.hu',
     name: 'Telex Gasztro',
     path: 'rss/archivum?filters={"superTagSlugs"%3A["gasztro"]%2C"parentId"%3A["null"]}&perPage=10',
-    feedCategory: FeedCategory.GASTRO,
+    feedCategory: FeedCategory.OUT,
     feedType: 'rss'
   },
   techTelex: {
@@ -65,6 +65,14 @@ export const sources: Record<string, SourceType> =
     path: 'feeds/tag?tagnames=css&amp;sort=newest',
     feedCategory: FeedCategory.FRONTEND,
     feedType: 'atom'
+  },
+  xkcd: {
+    baseURL: 'https://xkcd.com',
+    name: 'xkcd webcomic',
+    path: 'rss.xml',
+    feedCategory: FeedCategory.OUT,
+    feedType: 'rss',
+    image: true
   },
 }
 

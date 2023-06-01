@@ -23,6 +23,7 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
           console.log(err)
           return null;
         }
+        console.log('ELSŐ:', result?.[type]?.channel?.item?.[0]);
 
         return type === 'rss' ? result?.[type] : result
       }

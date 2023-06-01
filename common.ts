@@ -1,7 +1,7 @@
 export enum FeedCategory {
   DEFAULT = "DEFAULT",
   TECH = "TECH",
-  GASTRO = "GASTRO",
+  OUT = "OUT",
   FRONTEND = "FRONTEND",
   IT = "IT"
 }
@@ -12,4 +12,5 @@ export interface SourceType {
   path: string;
   feedCategory: FeedCategory,
   feedType: 'rss' | 'atom'
+  image?: boolean;
 }
