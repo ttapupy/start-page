@@ -6,7 +6,6 @@ import { twMerge } from 'tailwind-merge'
 import ErrorMessage from "./ErrorMessage";
 
 
-
 export default async function FeedBox({ source }: { source: SourceType }) {
   let rssData = null
   let atomData = null

@@ -10,7 +10,6 @@ interface IFeedSectionProps {
   feedLink?: string;
   feedTitle: string;
   feedDescription: string;
-  // formatText(text: string | null | undefined, title?: boolean): string;
   category: FeedCategory;
   image?: boolean;
 }
@@ -39,11 +38,6 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
     return description?.length > maxTextLength - 3 ? `${description.replace(/,?\s+\S*$/, "")}...` : description
   }
 
-  const matcher = (text: string, prop: string) => {
-    const regex = new RegExp(`${prop}=\"([\w\\\/\:\.,\s\']+)\"`);
-    console.log('match:', text.match(regex));
-    return text.match(regex)?.[1] || prop === 'alt' ? 'missing image' : ""
-  }
 
   const formatImage = (text: string | null | undefined) => {
     let src = null
@@ -55,8 +49,6 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
     src = text.match(/src=\"([\w\\\/\:\.]+)\"/)?.[1] || null
     alt = text.match(/alt=\"([\w\\\/\:\.,\s\']+)\"/)?.[1] || ""
 
-
-    console.log('KÉP:', { src, alt });
     return { src, alt }
   }
 
@@ -74,6 +66,7 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
 
       {image ?
         <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
+          {/* @ts-ignore */}
           <Image {...formatImage(feedDescription)} width="260" height="310" style={{ objectFit: "contain" }} />
         </div> :
         <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>{formatText(feedDescription)}</div>}
