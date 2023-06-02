@@ -34,10 +34,10 @@ export default async function Home() {
         <ThemeSwitcher />
       </header>
       <main className="min-h-screen mx-3 px-auto py-6">
-        <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center">
+        <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
 
           {/* @ts-expect-error Async Server Component */}
-          {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).sort((a, b) => a[1].name > b[1].name ? 1 : -1).map(([key, value]) => <FeedBox key={key} source={value} />)}
+          {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1).map(([key, value]) => <FeedBox key={key} sourceKey={key} source={value} />)}
 
         </div>
       </main>

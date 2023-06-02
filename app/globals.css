@@ -15,22 +15,21 @@
 }
 
 body {
-  @apply font-light_font dark:font-dark_font bg-papirus dark:bg-crt_background text-black dark:text-stone-200 bg-opacity-70
+  @apply bg-papirus bg-opacity-70 font-light_font text-base text-black dark:bg-crt_background dark:font-dark_font dark:text-stone-200;
 }
 
 header {
-  @apply flex justify-between
+  @apply flex justify-between;
 }
 
 li.checkbox-menu {
-  @apply text-gray-600 font-medium py-1 flex justify-between;
+  @apply flex justify-between py-1 font-medium text-gray-600;
 }
 
-li.checkbox-menu>input {
-  @apply ml-2 rounded ring-stone-400 ring-0 hover:ring-1 focus:ring-0 text-retro_green border-0 focus:outline-offset-0 focus:outline-2 focus:outline-stone-500;
+li.checkbox-menu > input {
+  @apply ml-2 rounded border-0 text-retro_green ring-0 ring-stone-400 hover:ring-1 focus:outline-2 focus:outline-offset-0 focus:outline-stone-500 focus:ring-0;
 }
 
-li.checkbox-menu:hover>input {
+li.checkbox-menu:hover > input {
   @apply ring-1;
-
 }
