@@ -6,11 +6,16 @@ export enum FeedCategory {
   IT = "IT"
 }
 
+export enum FeedType {
+  RSS = 'rss',
+  ATOM = 'atom'
+}
+
 export interface SourceType {
-  baseURL: string,
+  baseURL: string;
   name: string;
   path: string;
-  feedCategory: FeedCategory,
-  feedType: 'rss' | 'atom'
+  feedCategory: FeedCategory;
+  feedType: FeedType;
   image?: boolean;
 }

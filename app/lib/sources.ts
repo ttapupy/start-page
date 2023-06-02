@@ -1,77 +1,76 @@
-import { FeedCategory } from "@/common"
-import { SourceType } from "@/common"
+import { SourceType, FeedType, FeedCategory } from "@/common"
 
 export const sources: Record<string, SourceType> =
 {
   gasztroTelex: {
-    baseURL: 'https://telex.hu',
+    baseURL: 'telex.hu',
     name: 'Telex Gasztro',
     path: 'rss/archivum?filters={"superTagSlugs"%3A["gasztro"]%2C"parentId"%3A["null"]}&perPage=10',
     feedCategory: FeedCategory.OUT,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   techTelex: {
-    baseURL: 'https://telex.hu',
+    baseURL: 'telex.hu',
     name: 'Telex Tech',
     path: 'rss/archivum?filters={"superTagSlugs"%3A["tech"]%2C"parentId"%3A["null"]}&perPage=10',
     feedCategory: FeedCategory.TECH,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   hvgTelex: {
-    baseURL: 'https://hvg.hu',
+    baseURL: 'hvg.hu',
     name: 'HVG Tech',
     path: 'rss/tudomany',
     feedCategory: FeedCategory.TECH,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   techRepublic: {
-    baseURL: 'https://www.techrepublic.com',
+    baseURL: 'www.techrepublic.com',
     name: 'TechRepublic',
     path: 'rssfeeds/articles',
     feedCategory: FeedCategory.IT,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   codrops: {
-    baseURL: 'https://tympanus.net',
+    baseURL: 'tympanus.net',
     name: 'codrops',
     path: 'codrops/feed',
     feedCategory: FeedCategory.FRONTEND,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   cssTricks: {
-    baseURL: 'https://css-tricks.com',
+    baseURL: 'css-tricks.com',
     name: 'css-tricks',
     path: 'feed',
     feedCategory: FeedCategory.FRONTEND,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   devTo: {
-    baseURL: 'https://dev.to',
+    baseURL: 'dev.to',
     name: 'DEV',
     path: 'feed',
     feedCategory: FeedCategory.IT,
-    feedType: 'rss'
+    feedType: FeedType.RSS
   },
   stackOverflowJavaScript: {
-    baseURL: 'https://stackoverflow.com',
+    baseURL: 'stackoverflow.com',
     name: 'SO JavaScript',
     path: 'feeds/tag?tagnames=javascript&amp;sort=newest',
     feedCategory: FeedCategory.FRONTEND,
-    feedType: 'atom'
+    feedType: FeedType.ATOM
   },
   stackOverflowCSS: {
-    baseURL: 'https://stackoverflow.com',
+    baseURL: 'stackoverflow.com',
     name: 'SO CSS',
     path: 'feeds/tag?tagnames=css&amp;sort=newest',
     feedCategory: FeedCategory.FRONTEND,
-    feedType: 'atom'
+    feedType: FeedType.ATOM
   },
   xkcd: {
-    baseURL: 'https://xkcd.com',
+    baseURL: 'xkcd.com',
     name: 'xkcd webcomic',
     path: 'rss.xml',
     feedCategory: FeedCategory.OUT,
-    feedType: 'rss',
+    feedType: FeedType.RSS,
     image: true
   },
 }

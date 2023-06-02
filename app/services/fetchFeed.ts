@@ -5,7 +5,7 @@ import { XMLParser } from "fast-xml-parser";
 async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'): Promise<T> {
 
   // orankenti frissites
-  return fetch(`${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
+  return fetch(`http://${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
     if (response.ok) {
       return response;
     }
@@ -34,10 +34,12 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
     });
 }
 
-export async function getRssFeed(baseURL: string, topic: string): Promise<RssData> {
-  return await getFeed<RssData>(baseURL, topic, 'rss');
+export async function getRssFeed(baseURL: string, topic: string): Promise<RssItem[]> {
+  const rssData = await getFeed<RssData>(baseURL, topic, 'rss');
+  return rssData?.['channel']?.item || []
 }
 
-export async function getAtomFeed(baseURL: string, topic: string): Promise<AtomData> {
-  return await getFeed<AtomData>(baseURL, topic, 'atom');
+export async function getAtomFeed(baseURL: string, topic: string): Promise<AtomItem[]> {
+  const atomData = await getFeed<AtomData>(baseURL, topic, 'atom');
+  return atomData?.['feed']?.entry || []
 }

@@ -63,7 +63,7 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
       className={twMerge(sectionClass, clsx({ [colorTypes[category]]: true }))}
     >
       <a
-        href={`${feedLink || '#'}`}
+        href={feedLink || '#'}
         target="_blank"
         rel="noopener noreferrer"
         className="mb-3 mx-0 text-left font-semibold dark:font-500 hover:underline max-w-[30ch]"
