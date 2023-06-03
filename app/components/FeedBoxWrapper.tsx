@@ -6,19 +6,13 @@ import ErrorMessage from "./ErrorMessage";
 import FeedBox from "./FeedBox";
 
 
-type propNames = 'linkProp' | 'contentProp'
-
 
 export default async function FeedBoxWrapper({ source, sourceKey }: { source: SourceType, sourceKey: string }) {
 
   const listLength = 5
   const category = source?.feedCategory || FeedCategory.DEFAULT
 
-  const rssProps: Record<propNames, keyof RssItem> = { linkProp: 'link', contentProp: 'description' }
-  const atomProps: Record<propNames, keyof AtomItem> = { linkProp: 'id', contentProp: 'summary' }
-  const mapper = { [FeedType.RSS]: rssProps, [FeedType.ATOM]: atomProps }
-
-  let feedList: RssItem[] | AtomItem[] | null = null;
+  let feedList: FeedItem[] | null = null;
 
   if (source.feedType === FeedType.RSS) {
     feedList = await getRssFeed(source.baseURL, source.path);
@@ -45,8 +39,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
         <span className={twMerge(spanClass, clsx({ [colorTypes[category]]: true }))}>{source.name}</span>
       </h4>
       <>
-        {/* @ts-expect-error Async Server Component */}
-        <FeedBox data={feedList} linkProp={mapper[source.feedType].linkProp} contentProp={mapper[source.feedType].contentProp} {...props} />
+        <FeedBox data={feedList} {...props} />
       </>
     </div>
   )

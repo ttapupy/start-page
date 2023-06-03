@@ -33,3 +33,7 @@ li.checkbox-menu > input {
 li.checkbox-menu:hover > input {
   @apply ring-1;
 }
+
+audio {
+  @apply rounded-full border border-stone-200 bg-stone-200 opacity-75 !important;
+}

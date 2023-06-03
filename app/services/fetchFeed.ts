@@ -5,7 +5,7 @@ import { XMLParser } from "fast-xml-parser";
 async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'): Promise<T> {
 
   // orankenti frissites
-  return fetch(`http://${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
+  return fetch(`https://${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
     if (response.ok) {
       return response;
     }
@@ -15,7 +15,25 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
       if (response?.ok) {
         const news = await response.text()
 
-        const parser = new XMLParser();
+        const parser = new XMLParser(
+          {
+            ignoreAttributes: false,
+            attributeNamePrefix: "",
+            allowBooleanAttributes: true,
+            htmlEntities: true,
+            alwaysCreateTextNode: true,
+            textNodeName: "textValue",
+            transformAttributeName: (attributeName) => {
+              if (attributeName === 'href') return 'textValue';
+              return attributeName;
+            },
+            transformTagName: (tagName) => {
+              if (tagName === 'description') return 'summary';
+              if (tagName === 'pubDate') return 'published';
+              if (tagName === 'entry') return 'item';
+              return tagName;
+            }
+          })
         let result = null;
         try {
           result = parser.parse(news, true) || null
@@ -24,7 +42,7 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
           return null;
         }
 
-        return type === 'rss' ? result?.[type] : result
+        return result
       }
       return null;
     })
@@ -34,12 +52,14 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
     });
 }
 
-export async function getRssFeed(baseURL: string, topic: string): Promise<RssItem[]> {
+export async function getRssFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
   const rssData = await getFeed<RssData>(baseURL, topic, 'rss');
-  return rssData?.['channel']?.item || []
+
+  return rssData?.['rss']?.['channel']?.['item'] || []
 }
 
-export async function getAtomFeed(baseURL: string, topic: string): Promise<AtomItem[]> {
+export async function getAtomFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
   const atomData = await getFeed<AtomData>(baseURL, topic, 'atom');
-  return atomData?.['feed']?.entry || []
+
+  return atomData?.['feed']?.['item'] || []
 }

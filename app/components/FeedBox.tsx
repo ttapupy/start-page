@@ -1,32 +1,32 @@
 import { SourceType, FeedCategory, FeedType } from "@/common"
 import FeedSection from "./FeedSection";
 
-type BoxProps<T extends AtomItem | RssItem> =
-  {
-    linkProp: keyof T,
-    contentProp: keyof T,
-    data: T[]
-  }
 
-interface Commonprops {
+
+interface FeedBoxProps {
   listLength: number;
   source: SourceType;
   sourceKey: string;
   category: FeedCategory;
+  data: FeedItem[]
 }
 
-type FeedBoxProps<T extends AtomItem | RssItem> = Commonprops & BoxProps<T>
 
-export default function FeedBox<T extends AtomItem | RssItem>({ listLength, source, sourceKey, category, linkProp, contentProp, data }: FeedBoxProps<T>) {
 
-  const feedList = data.slice(0, listLength)?.filter((elem) => elem[linkProp]?.toString()?.startsWith(`https://${source.baseURL}`))
+export default function FeedBox({ listLength, source, sourceKey, category, data }: FeedBoxProps) {
+
+  const getText = (prop: FeedTag) => (prop?.['textValue'] || '');
+
+  // disallow suspicious links
+  let regex = new RegExp(`^https?:\/\/${source.testUrl || source.testUrl2 || source.baseURL}.+$`)
+  const feedList = data.slice(0, listLength)?.filter((elem) => !elem['link'] || getText(elem?.['link'])?.match(regex))
 
 
   return (
     <>
       {feedList?.map((item, idx) => {
         return (
-          <FeedSection itemKey={`${sourceKey}_${idx}`} key={idx} feedLink={item.link} category={category} feedTitle={item.title} feedDescription={item[contentProp]?.toString() || ''} image={source.image || false} />
+          <FeedSection itemKey={`${sourceKey}_${idx}`} key={idx} feedLink={item['link'] ? getText(item?.['link']) : (source.testUrl ? `https://${source.testUrl}` : null)} category={category} feedTitle={getText(item?.['title'])} feedDescription={getText(item?.['summary'])} image={source.image || false} podcast={source.podcast ? item?.['enclosure']?.['url'] || null : null} />
         )
       })}
     </>

@@ -22,8 +22,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata = {
-  title: 'News Feed',
-  description: 'Tech and Gastro',
+  title: 'Feed Reader',
+  description: 'IT, Science and other stuff',
 }
 
 export default function RootLayout({

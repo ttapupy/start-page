@@ -18,4 +18,7 @@ export interface SourceType {
   feedCategory: FeedCategory;
   feedType: FeedType;
   image?: boolean;
+  testUrl?: string;
+  testUrl2?: string;
+  podcast?: boolean;
 }

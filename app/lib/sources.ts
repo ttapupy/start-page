@@ -16,7 +16,7 @@ export const sources: Record<string, SourceType> =
     feedCategory: FeedCategory.TECH,
     feedType: FeedType.RSS
   },
-  hvgTelex: {
+  hvgTech: {
     baseURL: 'hvg.hu',
     name: 'HVG Tech',
     path: 'rss/tudomany',
@@ -72,6 +72,25 @@ export const sources: Record<string, SourceType> =
     feedCategory: FeedCategory.OUT,
     feedType: FeedType.RSS,
     image: true
+  },
+  vk: {
+    baseURL: 'feeds.simplecast.com',
+    name: 'Világos Középkor podcast',
+    path: 'xyZ5uaBs',
+    feedCategory: FeedCategory.OUT,
+    feedType: FeedType.RSS,
+    testUrl: 'vilagoskozepkor.hu',
+    podcast: true
+  },
+  szertar: {
+    baseURL: 'feeds.megaphone.fm',
+    name: 'Szertár podcast',
+    path: 'BETO8058051558',
+    feedCategory: FeedCategory.OUT,
+    feedType: FeedType.RSS,
+    testUrl: 'szertar.com',
+    testUrl2: 'www.podtrac.com',
+    podcast: true
   },
 }
 

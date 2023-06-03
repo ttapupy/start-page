@@ -8,30 +8,33 @@ import { FeedCategory } from "@/common";
 
 
 interface IFeedSectionProps {
-  feedLink?: string;
+  feedLink?: string | null;
   feedTitle: string;
   feedDescription: string;
   category: FeedCategory;
   image?: boolean;
+  podcast?: string | null;
   itemKey: string;
 }
 
 
-const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, itemKey }) => {
+const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey }) => {
 
   const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-5 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
 
 
   const colorTypes: Record<FeedCategory, string> = { [FeedCategory.DEFAULT]: 'border-zinc-400', [FeedCategory.TECH]: 'border-retro_blue', [FeedCategory.OUT]: 'border-retro_red', [FeedCategory.FRONTEND]: 'border-retro_orange', [FeedCategory.IT]: 'border-retro_green' }
 
-  const maxTextLength = 140
+  const maxTextLength = 160
 
 
+  // parse just plain text for the safety and simplicity
   const formatText = (text: string | null | undefined, title = false) => {
     if (text == null) {
       return ""
     }
-    const decoded = he.decode(text)
+
+    const decoded = he.decode(text.toString())
     if (decoded == null) {
       return ""
     }
@@ -75,7 +78,19 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
           {/* @ts-ignore */}
           <Image {...formatImage(feedDescription)} width="260" height="310" style={{ objectFit: "contain" }} />
         </div> :
-        <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>{formatText(feedDescription)}</div>}
+        <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
+          <div>{formatText(feedDescription)}</div>
+
+          {!!podcast && (
+            <div className='pt-4'>
+              <audio controls className="track">
+                <source src={podcast} type="audio/mpeg" />
+                <p>Your browser does not support the audio element.</p>
+              </audio>
+            </div>)}
+        </div>}
+
+
 
     </section>
   );

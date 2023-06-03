@@ -21,7 +21,7 @@ export default function FeedSelector({ onCheck, selectedFeeds }: { onCheck: (fee
 
 
   return (
-    <div className='relative w-48 ml-2'>
+    <div className='relative w-64 ml-2'>
       <button data-dropdown-toggle="menu" onClick={() => setShowMenu(!showMenu)} className="px-4 cursor-pointer" id="burger">
         <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
       </button>

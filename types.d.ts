@@ -1,35 +1,33 @@
-interface RssItem {
-  title: string;
-  link?: string;
-  pubDate?: string;
-  guid?: string;
-  category?: string;
-  description: string;
+interface Enclosure {
+  url: string;
+  length: string;
+  type: string;
 }
 
-interface AtomItem {
-  id: string;
-  title: string;
-  link?: string;
-  published?: string;
-  category?: string;
-  summary: string;
+interface FeedTag {
+  textValue: string;
+}
+
+
+interface FeedItem {
+  title: FeedTag;
+  link?: FeedTag;
+  published?: FeedTag;
+  summary: FeedTag;
+  enclosure?: Enclosure;
 }
 
 interface Channel {
-  title: string;
-  link?: string;
-  description?: string;
-  item: RssItem[];
+  item: FeedItem[];
+}
+
+interface Rss {
+  channel: Channel;
 }
 
 interface Atom {
-  title: string;
-  subtitle: string;
-  link?: string;
-  updated?: string;
-  entry: AtomItem[];
+  item: FeedItem[];
 }
 
-type RssData = Record<"channel", Channel> | null | undefined
+type RssData = Record<"rss", Rss> | null | undefined
 type AtomData = Record<"feed", Atom> | null | undefined
