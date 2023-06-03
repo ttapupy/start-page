@@ -21,7 +21,7 @@ interface IFeedSectionProps {
 
 const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey, date }) => {
 
-  const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-5 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
+  const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-3 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
 
 
   const colorTypes: Record<FeedCategory, string> = { [FeedCategory.DEFAULT]: 'border-zinc-400', [FeedCategory.TECH]: 'border-retro_blue', [FeedCategory.OUT]: 'border-retro_red', [FeedCategory.FRONTEND]: 'border-retro_orange', [FeedCategory.IT]: 'border-retro_green' }

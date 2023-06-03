@@ -34,7 +34,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
   const props = { listLength, source, sourceKey, category }
 
   return (
-    <div className="flex-[0_0_auto] min-w-[20ch] mx-1 pb-[5em]">
+    <div className="flex-[0_0_auto] min-w-[10ch] mx-1 pb-[5em]">
       <h4 className="mb-4 flex justify-start">
         <span className={twMerge(spanClass, clsx({ [colorTypes[category]]: true }))}>{source.name}</span>
       </h4>
