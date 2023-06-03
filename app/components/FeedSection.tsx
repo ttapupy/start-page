@@ -21,7 +21,7 @@ interface IFeedSectionProps {
 
 const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey, date }) => {
 
-  const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-3 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
+  const sectionClass = `flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
 
 
   const colorTypes: Record<FeedCategory, string> = { [FeedCategory.DEFAULT]: 'border-zinc-400', [FeedCategory.TECH]: 'border-retro_blue', [FeedCategory.OUT]: 'border-retro_red', [FeedCategory.FRONTEND]: 'border-retro_orange', [FeedCategory.IT]: 'border-retro_green' }
@@ -73,21 +73,21 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
         href={feedLink || '#'}
         target="_blank"
         rel="noopener noreferrer"
-        className="mb-3 mx-0 text-left font-semibold dark:font-500 hover:underline max-w-[30ch]"
+        className="mb-3 mx-0 text-left font-semibold dark:font-500 hover:underline"
 
       >{formatText(feedTitle, true)}</a>
 
       {image ?
-        <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
+        <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
           {/* @ts-ignore */}
           <Image {...formatImage(feedDescription)} width="260" height="310" style={{ objectFit: "contain" }} />
         </div> :
-        <div className={`my-0 mx-0 max-w-[30ch] text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
+        <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
           <div>{formatText(feedDescription)}</div>
 
           {!!podcast && (
-            <div className='pt-4'>
-              <audio controls className="track">
+            <div className='pt-4 text-center'>
+              <audio controls className="mx-auto">
                 <source src={podcast} type="audio/mpeg" />
                 <p>Your browser does not support the audio element.</p>
               </audio>

@@ -33,7 +33,7 @@ export default async function Home() {
         <FeedSelector onCheck={onCheck} selectedFeeds={selectedFeeds} />
         <ThemeSwitcher />
       </header>
-      <main className="min-h-screen mx-3 px-auto py-6">
+      <main className="min-h-screen mx-0  md:mx-3 px-auto py-6">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
 
           {/* @ts-expect-error Async Server Component */}

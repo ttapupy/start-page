@@ -15,7 +15,7 @@
 }
 
 body {
-  @apply bg-papirus bg-opacity-70 font-light_font text-base text-black dark:bg-crt_background dark:font-dark_font dark:text-stone-200;
+  @apply bg-papirus bg-opacity-70 font-light_font text-lg text-black dark:bg-crt_background dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
 header {
