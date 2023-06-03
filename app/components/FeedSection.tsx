@@ -15,10 +15,11 @@ interface IFeedSectionProps {
   image?: boolean;
   podcast?: string | null;
   itemKey: string;
+  date?: string;
 }
 
 
-const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey }) => {
+const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey, date }) => {
 
   const sectionClass = `flex flex-col max-w-[36ch] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-5 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
 
@@ -60,11 +61,14 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
     return { src, alt }
   }
 
+  const publishDate = !!date ? new Date(date) : null
+
   return (
     <section
       id={itemKey}
       className={twMerge(sectionClass, clsx({ [colorTypes[category]]: true }))}
     >
+      {!!publishDate && <small className='font-mono text-left text-slate-600 dark:text-slate-300'>{publishDate.toISOString().substring(0, 10)}</small>}
       <a
         href={feedLink || '#'}
         target="_blank"

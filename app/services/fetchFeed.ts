@@ -2,9 +2,9 @@ import { XMLParser } from "fast-xml-parser";
 
 
 
-async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'): Promise<T> {
+async function getFeed<T>(baseURL: string, topic: string): Promise<T> {
 
-  // orankenti frissites
+  // hourly update
   return fetch(`https://${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
     if (response.ok) {
       return response;
@@ -53,13 +53,13 @@ async function getFeed<T>(baseURL: string, topic: string, type: 'rss' | 'atom'):
 }
 
 export async function getRssFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
-  const rssData = await getFeed<RssData>(baseURL, topic, 'rss');
+  const rssData = await getFeed<RssData>(baseURL, topic);
 
   return rssData?.['rss']?.['channel']?.['item'] || []
 }
 
 export async function getAtomFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
-  const atomData = await getFeed<AtomData>(baseURL, topic, 'atom');
+  const atomData = await getFeed<AtomData>(baseURL, topic);
 
   return atomData?.['feed']?.['item'] || []
 }

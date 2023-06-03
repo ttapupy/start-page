@@ -35,5 +35,5 @@ li.checkbox-menu:hover > input {
 }
 
 audio {
-  @apply rounded-full border border-stone-200 bg-stone-200 opacity-75 !important;
+  @apply rounded-full border border-stone-300 bg-stone-300 opacity-70 hover:opacity-100 !important;
 }
