@@ -16,6 +16,7 @@ module.exports = {
       },
       colors: {
         'papirus': '#E0E0DE',
+        'papirus_light': '#efefee',
         'retro_green': '#9ABA8F',
         'retro_greener': '#569441',
         'retro_blue': '#698C9E',
