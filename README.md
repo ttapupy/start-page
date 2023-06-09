@@ -7,6 +7,7 @@ It can function as a kind of homepage in the browser.
 The main concept is to taking advantage of the new feature of [Server Actions](https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions) in the app/page.tsx file.
 
 Customization is minimal, I tried to parse feeds as safely as possible and display them in a clean layout.
+A visitor can reduce selected feed sources which decision then will be saved to a cookie.
 
 [online available](https://start-page-kappa.vercel.app/)
 

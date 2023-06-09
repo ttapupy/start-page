@@ -21,7 +21,7 @@ interface IFeedSectionProps {
 
 const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescription, category, image, podcast, itemKey, date }) => {
 
-  const sectionClass = `flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber`
+  const sectionClass = `bg-papirus dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-stone-100 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100`
 
 
   const colorTypes: Record<FeedCategory, string> = { [FeedCategory.DEFAULT]: 'border-zinc-400', [FeedCategory.TECH]: 'border-retro_blue', [FeedCategory.OUT]: 'border-retro_red', [FeedCategory.FRONTEND]: 'border-retro_orange', [FeedCategory.IT]: 'border-retro_green' }
@@ -83,7 +83,7 @@ const FeedSection: FC<IFeedSectionProps> = ({ feedLink, feedTitle, feedDescripti
           <Image {...formatImage(feedDescription)} width="260" height="310" style={{ objectFit: "contain" }} />
         </div> :
         <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
-          <div>{formatText(feedDescription)}</div>
+          <div className='overflow-clip break-words'>{formatText(feedDescription)}</div>
 
           {!!podcast && (
             <div className='pt-4 text-center'>
