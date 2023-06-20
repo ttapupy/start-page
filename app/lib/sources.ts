@@ -51,19 +51,19 @@ export const sources: Record<string, SourceType> =
     feedCategory: FeedCategory.IT,
     feedType: FeedType.RSS
   },
-  stackOverflowJavaScript: {
+  stackOverflow: {
     baseURL: 'stackoverflow.com',
-    name: 'SO JavaScript',
-    path: 'feeds/tag?tagnames=javascript&amp;sort=newest',
+    name: 'StackOverflow latest',
+    path: 'feeds?sort=newest',
     feedCategory: FeedCategory.FRONTEND,
     feedType: FeedType.ATOM
   },
-  stackOverflowCSS: {
-    baseURL: 'stackoverflow.com',
-    name: 'SO CSS',
-    path: 'feeds/tag?tagnames=css&amp;sort=newest',
-    feedCategory: FeedCategory.FRONTEND,
-    feedType: FeedType.ATOM
+  levelUp: {
+    baseURL: 'levelup.gitconnected.com',
+    name: 'Level Up Coding',
+    path: 'feed',
+    feedCategory: FeedCategory.IT,
+    feedType: FeedType.RSS
   },
   xkcd: {
     baseURL: 'xkcd.com',
