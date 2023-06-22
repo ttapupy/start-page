@@ -4,6 +4,8 @@ import { cookies } from 'next/headers';
 import FeedSelector from './components/FeedSelector';
 import { revalidatePath } from 'next/cache';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import AudioPlaybackProvider from "@/app/components/AudioPlaybackProvider";
+
 
 let selectedFeeds: string[] = [];
 
@@ -35,10 +37,10 @@ export default async function Home() {
       </header>
       <main className="min-h-screen mx-0  md:mx-3 px-auto py-6">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
-
+          <AudioPlaybackProvider>
           {/* @ts-expect-error Async Server Component */}
           {Object.entries(sources).filter(([key, value]) => selectedFeeds?.includes(key)).sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1).map(([key, value]) => <FeedBoxWrapper key={key} sourceKey={key} source={value} />)}
-
+      </AudioPlaybackProvider>
         </div>
       </main>
     </>
