@@ -7,25 +7,20 @@ async function parseXMLResponse(response: Response) {
     try {
       result = xmlParser.parse(news, true) || null
     } catch (err) {
-      console.log(err)
+      console.log('parser error: ', err)
       return null;
     }
     return result;
   }
-  return null;
+  throw new Error('cannot fetch data');
 }
 
 function getFeed<T>(baseURL: string, topic: string): Promise<T> {
   // hourly update
   return fetch(`https://${baseURL}/${topic}`, {next: {revalidate: 3600}})
-      .then((response) => {
-        if (response.ok) {
-          return parseXMLResponse(response);
-        }
-        return null;
-      })
+      .then((response) => parseXMLResponse(response))
       .catch((error) => {
-        console.log(error)
+        console.log('network error:', error.message)
         return null;
       });
 }
