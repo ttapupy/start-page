@@ -1,55 +1,33 @@
-import { XMLParser } from "fast-xml-parser";
+import {xmlParser} from "@/app/services/xmlParser";
 
-
-
-async function getFeed<T>(baseURL: string, topic: string): Promise<T> {
-
-  // hourly update
-  return fetch(`https://${baseURL}/${topic}`, { next: { revalidate: 3600 } }).then((response) => {
-    if (response.ok) {
-      return response;
+async function parseXMLResponse(response: Response) {
+  if (response?.ok) {
+    const news = await response.text()
+    let result = null;
+    try {
+      result = xmlParser.parse(news, true) || null
+    } catch (err) {
+      console.log(err)
+      return null;
     }
-    return null;
-  })
-    .then(async (response) => {
-      if (response?.ok) {
-        const news = await response.text()
+    return result;
+  }
+  return null;
+}
 
-        const parser = new XMLParser(
-          {
-            ignoreAttributes: false,
-            attributeNamePrefix: "",
-            allowBooleanAttributes: true,
-            htmlEntities: true,
-            alwaysCreateTextNode: true,
-            textNodeName: "textValue",
-            transformAttributeName: (attributeName) => {
-              if (attributeName === 'href') return 'textValue';
-              return attributeName;
-            },
-            transformTagName: (tagName) => {
-              if (tagName === 'description') return 'summary';
-              if (tagName === 'pubDate') return 'published';
-              if (tagName === 'entry') return 'item';
-              return tagName;
-            }
-          })
-        let result = null;
-        try {
-          result = parser.parse(news, true) || null
-        } catch (err) {
-          console.log(err)
-          return null;
+function getFeed<T>(baseURL: string, topic: string): Promise<T> {
+  // hourly update
+  return fetch(`https://${baseURL}/${topic}`, {next: {revalidate: 3600}})
+      .then((response) => {
+        if (response.ok) {
+          return parseXMLResponse(response);
         }
-
-        return result
-      }
-      return null;
-    })
-    .catch((error) => {
-      console.log(error)
-      return null;
-    });
+        return null;
+      })
+      .catch((error) => {
+        console.log(error)
+        return null;
+      });
 }
 
 export async function getRssFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
