@@ -17,7 +17,7 @@ async function parseXMLResponse(response: Response) {
 
 function getFeed<T>(baseURL: string, topic: string): Promise<T> {
   // hourly update
-  return fetch(`https://${baseURL}/${topic}`, {next: {revalidate: 3600}})
+  return fetch(`https://${baseURL}/${encodeURI(topic)}`, {next: {revalidate: 3600}})
       .then((response) => parseXMLResponse(response))
       .catch((error) => {
         console.log('network error:', error.message)

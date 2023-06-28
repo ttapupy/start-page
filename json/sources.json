@@ -1,0 +1,93 @@
+{
+  "gasztroTelex": {
+    "baseURL": "telex.hu",
+    "name": "Telex Gasztro",
+    "path": "rss/archivum?filters={\"superTagSlugs\":[\"gasztro\"],\"parentId\":[\"null\"]}&perPage=10",
+    "feedCategory": "OUT",
+    "feedType": "rss"
+  },
+  "techTelex": {
+    "baseURL": "telex.hu",
+    "name": "Telex Tech",
+    "path": "rss/archivum?filters={\"superTagSlugs\":[\"tech\"],\"parentId\":[\"null\"]}&perPage=10",
+    "feedCategory": "TECH",
+    "feedType": "rss"
+  },
+  "hwsw": {
+    "baseURL": "hwsw.hu",
+    "name": "HWSW",
+    "path": "xml/latest_news_rss.xml",
+    "feedCategory": "TECH",
+    "feedType": "rss",
+    "testUrl": "www.hwsw.hu"
+  },
+  "techRepublic": {
+    "baseURL": "www.techrepublic.com",
+    "name": "TechRepublic",
+    "path": "rssfeeds/articles",
+    "feedCategory": "IT",
+    "feedType": "rss"
+  },
+  "codrops": {
+    "baseURL": "tympanus.net",
+    "name": "codrops",
+    "path": "codrops/feed",
+    "feedCategory": "FRONTEND",
+    "feedType": "rss"
+  },
+  "cssTricks": {
+    "baseURL": "css-tricks.com",
+    "name": "css-tricks",
+    "path": "feed",
+    "feedCategory": "FRONTEND",
+    "feedType": "rss"
+  },
+  "devTo": {
+    "baseURL": "dev.to",
+    "name": "DEV",
+    "path": "feed",
+    "feedCategory": "IT",
+    "feedType": "rss"
+  },
+  "stackOverflow": {
+    "baseURL": "stackoverflow.com",
+    "name": "StackOverflow latest",
+    "path": "feeds?sort=newest",
+    "feedCategory": "FRONTEND",
+    "feedType": "atom"
+  },
+  "levelUp": {
+    "baseURL": "levelup.gitconnected.com",
+    "name": "Level Up Coding",
+    "path": "feed",
+    "feedCategory": "IT",
+    "feedType": "rss"
+  },
+  "xkcd": {
+    "baseURL": "xkcd.com",
+    "name": "xkcd webcomic",
+    "path": "rss.xml",
+    "feedCategory": "OUT",
+    "feedType": "rss",
+    "image": true
+  },
+  "vk": {
+    "baseURL": "feeds.simplecast.com",
+    "name": "Világos Középkor podcast",
+    "path": "xyZ5uaBs",
+    "feedCategory": "OUT",
+    "feedType": "rss",
+    "testUrl": "vilagoskozepkor.hu",
+    "podcast": true
+  },
+  "szertar": {
+    "baseURL": "feeds.megaphone.fm",
+    "name": "Szertár podcast",
+    "path": "BETO8058051558",
+    "feedCategory": "OUT",
+    "feedType": "rss",
+    "testUrl": "szertar.com",
+    "testUrl2": "www.podtrac.com",
+    "podcast": true
+  }
+}
