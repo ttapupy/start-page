@@ -1,16 +1,16 @@
 "use client"
 
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useTheme} from "next-themes";
 import SwitcherButton from './SwitcherButton';
 
 
 const ThemeSwitcher = () => {
-  const mounted = useRef(false)
+  const [mounted, setMounted] = useState(false)
   const {theme, setTheme} = useTheme()
 
   useEffect(() => {
-    mounted.current = true
+    setMounted(true)
   }, [])
 
   if (!mounted) {
