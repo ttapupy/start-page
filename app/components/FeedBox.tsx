@@ -1,4 +1,4 @@
-import { SourceType, FeedCategory, FeedType } from "@/common"
+import {SourceType, FeedCategory, FeedType} from "@/common"
 import FeedSection from "./FeedSection";
 
 
@@ -11,8 +11,7 @@ interface FeedBoxProps {
 }
 
 
-export default function FeedBox({ listLength, source, sourceKey, category, data }: FeedBoxProps) {
-
+export default function FeedBox({listLength, source, sourceKey, category, data}: FeedBoxProps) {
   const getText = (prop: FeedTag | undefined) => (prop?.['textValue'] || '');
 
   // disallow suspicious links
@@ -21,12 +20,22 @@ export default function FeedBox({ listLength, source, sourceKey, category, data 
 
 
   return (
-    <>
-      {feedList?.map((item, idx) => {
-        return (
-          <FeedSection itemKey={`${sourceKey}_${idx}`} key={idx} feedLink={item['link'] ? getText(item?.['link']) : (source.testUrl ? `https://${source.testUrl}` : null)} category={category} feedTitle={getText(item?.['title'])} feedDescription={getText(item?.['summary'])} image={source.image || false} podcast={source.podcast ? item?.['enclosure']?.['url'] || null : null} date={getText(item['published'])} />
-        )
-      })}
-    </>
+      <>
+        {feedList?.map((item, idx) => {
+          return (
+              <FeedSection
+                  key={idx}
+                  itemKey={`${sourceKey}_${idx}`}
+                  feedLink={item['link'] ? getText(item?.['link']) : (source.testUrl ? `https://${source.testUrl}` : null)}
+                  category={category}
+                  feedTitle={getText(item?.['title'])}
+                  feedDescription={getText(item?.['summary'])}
+                  image={source.image || false}
+                  podcast={source.podcast ? item?.['enclosure']?.['url'] || null : null}
+                  date={getText(item['published'])}
+              />
+          )
+        })}
+      </>
   )
 };

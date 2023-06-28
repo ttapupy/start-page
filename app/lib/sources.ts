@@ -16,12 +16,13 @@ export const sources: Record<string, SourceType> =
         feedCategory: FeedCategory.TECH,
         feedType: FeedType.RSS
       },
-      hvgTech: {
-        baseURL: 'hvg.hu',
-        name: 'HVG Tech',
-        path: 'rss/tudomany',
+      hwsw: {
+        baseURL: 'hwsw.hu',
+        name: 'HWSW',
+        path: 'xml/latest_news_rss.xml',
         feedCategory: FeedCategory.TECH,
-        feedType: FeedType.RSS
+        feedType: FeedType.RSS,
+        testUrl: 'www.hwsw.hu'
       },
       techRepublic: {
         baseURL: 'www.techrepublic.com',
@@ -93,6 +94,5 @@ export const sources: Record<string, SourceType> =
         podcast: true
       },
     }
-
 
 export const sourceCookieName = 'startPageSources'
