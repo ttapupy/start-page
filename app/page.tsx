@@ -37,8 +37,6 @@ export default async function Home() {
   const cookieStore = cookies()
   const feedCookie = cookieStore.get(sourceCookieName)?.value
 
-  console.log('sources', Object.entries(sources))
-
   if (feedCookie && Array.isArray(JSON.parse(feedCookie))) {
     selectedFeeds = JSON.parse(feedCookie) as string[]
   } else if (!!sources && Object.keys(sources)) {
@@ -59,7 +57,7 @@ export default async function Home() {
     revalidatePath("/")
   }
 
-  if (!sources) return <div>Failed to load</div>;
+  if (!sources) return <div>Failed to load the source file. Please try again later.</div>;
 
   return (
       <>
@@ -74,13 +72,21 @@ export default async function Home() {
         <main className="min-h-screen mx-0  md:mx-3 px-auto py-6">
           <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
             <AudioPlaybackProvider>
-              {
-                Object.entries(sources)
-                    .filter(([key, value]) => selectedFeeds?.includes(key) && validate(value)).sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1)
-                    .map(([key, value]) => (
-                        /* @ts-expect-error Async Server Component */
-                        <FeedBoxWrapper key={key} sourceKey={key} source={value}/>)
-                    )
+              {selectedFeeds?.length
+                  ?
+                  Object.entries(sources)
+                      .filter(([key, value]) => selectedFeeds?.includes(key) && validate(value)).sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1)
+                      .map(([key, value]) => (
+                          /* @ts-expect-error Async Server Component */
+                          <FeedBoxWrapper key={key} sourceKey={key} source={value}/>)
+                      )
+                  :
+                  <article
+                      className="border-2 border-b-crt_foreground rounded p-2"
+                      title="You can select feeds from the above menu."
+                  >
+                    {'There is no source selected.'}
+                  </article>
               }
             </AudioPlaybackProvider>
           </div>
