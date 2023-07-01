@@ -7,9 +7,8 @@ export const sourceCookieName = 'startPageSources'
 async function getStaticData(): Promise<Record<string, SourceType>> {
   const filePath = path.join(process.cwd(), 'json/sources.json');
   const jsonData = await fsPromises.readFile(filePath);
-  const objectData = JSON.parse(jsonData.toString());
 
-  return objectData
+  return JSON.parse(jsonData.toString());
 }
 
 export default getStaticData;

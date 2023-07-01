@@ -1,15 +1,8 @@
 {
-  "gasztroTelex": {
-    "baseURL": "telex.hu",
-    "name": "Telex Gasztro",
-    "path": "rss/archivum?filters={\"superTagSlugs\":[\"gasztro\"],\"parentId\":[\"null\"]}&perPage=10",
-    "feedCategory": "OUT",
-    "feedType": "rss"
-  },
-  "techTelex": {
-    "baseURL": "telex.hu",
-    "name": "Telex Tech",
-    "path": "rss/archivum?filters={\"superTagSlugs\":[\"tech\"],\"parentId\":[\"null\"]}&perPage=10",
+  "itCafe": {
+    "baseURL": "itcafe.hu",
+    "name": "IT Café",
+    "path": "hirfolyam/anyagok/rss.xml",
     "feedCategory": "TECH",
     "feedType": "rss"
   },

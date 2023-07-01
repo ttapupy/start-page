@@ -6,7 +6,7 @@ import {clsx} from 'clsx';
 import {twMerge} from 'tailwind-merge'
 import {SourceType} from "@/common";
 
-
+// For fun the behaviour of this "modal" is controlled by css
 export default function FeedSelector({onCheck, selectedFeeds, sourceEntries}: {
   onCheck: (feeds: FieldValues) => Promise<void>,
   selectedFeeds: string[],
@@ -21,12 +21,12 @@ export default function FeedSelector({onCheck, selectedFeeds, sourceEntries}: {
   }
 
   const [showMenu, setShowMenu] = React.useState(false)
-  const navClass = 'absolute ml-4 mt-6 rounded inset-x-0 top-0 invisible bg-slate-300 delay-0 opacity-0 text-sm max-w-prose z-10 [transition:visibility_0s_ease-out_1000ms,_opacity_1000ms_ease-out_0s]'
+  const navClass = 'absolute ml-4 mt-10 rounded inset-x-0 top-0 invisible bg-slate-300 delay-0 opacity-0 text-sm max-w-prose z-10 [transition:visibility_0s_ease-out_1000ms,_opacity_1000ms_ease-out_0s]'
 
 
   return (
       <div className='relative w-64 ml-2'>
-        <button data-dropdown-toggle="menu" onClick={() => setShowMenu(!showMenu)} className="px-4 cursor-pointer"
+        <button data-dropdown-toggle="menu" onClick={() => setShowMenu(!showMenu)} className="p-4 cursor-pointer"
                 id="burger">
           <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                stroke="currentColor" viewBox="0 0 24 24">
