@@ -11,7 +11,7 @@ interface FeedTag {
 
 interface FeedItem {
   title: FeedTag;
-  link?: FeedTag;
+  link: FeedTag;
   published?: FeedTag;
   summary: FeedTag;
   enclosure?: Enclosure;

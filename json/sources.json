@@ -11,11 +11,10 @@
     "name": "HWSW",
     "path": "xml/latest_news_rss.xml",
     "feedCategory": "TECH",
-    "feedType": "rss",
-    "testUrl": "www.hwsw.hu"
+    "feedType": "rss"
   },
   "techRepublic": {
-    "baseURL": "www.techrepublic.com",
+    "baseURL": "techrepublic.com",
     "name": "TechRepublic",
     "path": "rssfeeds/articles",
     "feedCategory": "IT",
@@ -80,7 +79,7 @@
     "feedCategory": "OUT",
     "feedType": "rss",
     "testUrl": "szertar.com",
-    "testUrl2": "www.podtrac.com",
+    "testUrl2": "podtrac.com",
     "podcast": true
   }
 }
