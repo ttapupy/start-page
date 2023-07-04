@@ -35,7 +35,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
                                               handleHide
                                             }) => {
 
-  const sectionClass = `bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100 delay-0 [transition:ease-out_2000ms,_opacity_2000ms_ease-out_0s]`
+  const sectionClass = `bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100`
   const colorTypes: Record<FeedCategory, string> = {
     [FeedCategory.DEFAULT]: 'border-zinc-400',
     [FeedCategory.TECH]: 'border-retro_blue',
