@@ -1,5 +1,5 @@
 import './globals.css'
-import {Inter, Figtree} from 'next/font/google';
+import {Inter} from 'next/font/google';
 import Provider from './components/Provider'
 
 
@@ -9,25 +9,15 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const figtree = Figtree({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-figtree',
-});
-
 export const metadata = {
   title: 'Feed Reader',
   description: 'IT, Science and other stuff',
 }
 
-export default function RootLayout({
-                                     children,
-                                   }: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
       <html lang="en">
-      <body className={`${inter.variable} ${figtree.variable}`}>
+      <body className={`${inter.variable}`}>
       <Provider>{children}</Provider>
       </body>
       </html>

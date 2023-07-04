@@ -30,7 +30,7 @@ module.exports = {
       },
       fontFamily: {
         'dark_font': ['var(--font-figtree)', ...defaultTheme.fontFamily.sans],
-        'light_font': ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
+        'light_font': defaultTheme.fontFamily.sans,
       },
     },
   },
