@@ -29,8 +29,8 @@ module.exports = {
         'crt_amber': 'hsl(48, 19%, 87%)',
       },
       fontFamily: {
-        'dark_font': ['var(--font-figtree)', 'var(--font-montserrat)', ...defaultTheme.fontFamily.sans],
-        'light_font': ['var(--font-inter)', 'var(--font-figtree)', ...defaultTheme.fontFamily.sans],
+        'dark_font': ['var(--font-figtree)', ...defaultTheme.fontFamily.sans],
+        'light_font': ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
       },
     },
   },
