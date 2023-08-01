@@ -15,11 +15,7 @@
 }
 
 body {
-  @apply bg-papirus bg-opacity-70 font-light_font text-lg text-black dark:bg-crt_background dark:font-dark_font dark:text-stone-200 md:text-base backdrop-filter backdrop-blur;
-}
-
-main {
-  @apply backdrop-filter backdrop-blur-sm bg-slate-500 dark:bg-slate-100 bg-opacity-30 dark:bg-opacity-20 rounded;
+  @apply bg-[#e3e3e3] bg-opacity-70 font-light_font text-lg text-black backdrop-blur backdrop-filter dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
 header {
