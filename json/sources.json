@@ -63,15 +63,6 @@
     "feedType": "rss",
     "image": true
   },
-  "vk": {
-    "baseURL": "feeds.simplecast.com",
-    "name": "Világos Középkor podcast",
-    "path": "xyZ5uaBs",
-    "feedCategory": "OUT",
-    "feedType": "rss",
-    "testUrl": "vilagoskozepkor.hu",
-    "podcast": true
-  },
   "szertar": {
     "baseURL": "feeds.megaphone.fm",
     "name": "Szertár podcast",
