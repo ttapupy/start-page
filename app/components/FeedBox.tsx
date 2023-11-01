@@ -1,7 +1,7 @@
-import {SourceType, FeedCategory} from "@/common"
+import { SourceType, FeedCategory } from "@/common"
 import FeedCard from "./FeedCard";
-import {cookies} from "next/headers";
-import {visitedFeedCookieName} from "@/app/api/staticdata";
+import { cookies } from "next/headers";
+import { visitedFeedCookieName } from "@/app/api/staticdata";
 
 
 interface FeedBoxProps {
@@ -13,7 +13,7 @@ interface FeedBoxProps {
 }
 
 
-export default function FeedBox({listLength, source, sourceKey, category, data}: FeedBoxProps) {
+export default function FeedBox({ listLength, source, sourceKey, category, data }: FeedBoxProps) {
   let hiddenNews: string[] = [];
   const getText = (prop: FeedTag | undefined) => (prop?.['textValue'] || '');
   const cookieStore = cookies()
@@ -37,33 +37,33 @@ export default function FeedBox({listLength, source, sourceKey, category, data}:
     expirationDate.setDate(today.getDate() + expDays);
     // @ts-ignore
     cookies().set(`${visitedFeedCookieName}${sourceKey}`, JSON.stringify([...hiddenNews, link]),
-        {
-          sameSite: 'strict',
-          secure: true,
-          httpOnly: true,
-          overwrite: true,
-          expires: expirationDate
-        })
+      {
+        sameSite: 'strict',
+        secure: true,
+        httpOnly: true,
+        overwrite: true,
+        expires: expirationDate
+      })
   }
 
   return (
-      <>
-        {feedList?.map((item, idx) => {
-          return (
-              <FeedCard
-                  key={idx}
-                  itemKey={`${sourceKey}_${idx}`}
-                  feedLink={getText(item?.['link'])}
-                  category={category}
-                  feedTitle={getText(item?.['title'])}
-                  feedDescription={getText(item?.['summary'])}
-                  image={source.image || false}
-                  podcast={source.podcast ? item?.['enclosure']?.['url'] || null : null}
-                  date={getText(item['published'])}
-                  handleHide={handleHide}
-              />
-          )
-        })}
-      </>
+    <>
+      {feedList?.map((item, idx) => {
+        return (
+          <FeedCard
+            key={idx}
+            itemKey={`${sourceKey}_${idx}`}
+            feedLink={getText(item?.['link'])}
+            category={category}
+            feedTitle={getText(item?.['title'])}
+            feedDescription={getText(item?.['summary'])}
+            image={source.image || false}
+            podcast={source.podcast ? item?.['enclosure']?.['url'] || null : null}
+            date={getText(item['published'])}
+            handleHide={handleHide}
+          />
+        )
+      })}
+    </>
   )
 };

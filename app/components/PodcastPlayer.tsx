@@ -12,9 +12,9 @@ interface IPodcastPlayer {
   itemKey: string;
 }
 
-const PodcastPlayer = ({podcast, itemKey}: IPodcastPlayer) => {
+const PodcastPlayer = ({ podcast, itemKey }: IPodcastPlayer) => {
 
-  const {playingAudioId, setPlayingAudioId} = React.useContext(AudioPlaybackContext)
+  const { playingAudioId, setPlayingAudioId } = React.useContext(AudioPlaybackContext)
   const audioIsActive = playingAudioId === itemKey;
   const audioRef = React.useRef<H5AudioPlayer>(null)
 
@@ -33,14 +33,14 @@ const PodcastPlayer = ({podcast, itemKey}: IPodcastPlayer) => {
   }, [audioIsActive]);
 
   return (
-      <figure className='pt-4 text-center'>
-        <AudioPlayer
-            ref={audioRef}
-            className="mx-auto"
-            src={podcast}
-            onPlay={onPlay}
-        />
-      </figure>
+    <figure className='pt-4 text-center' data-testid='audio-player-container'>
+      <AudioPlayer
+        ref={audioRef}
+        className="mx-auto"
+        src={podcast}
+        onPlay={onPlay}
+      />
+    </figure>
   )
 };
 

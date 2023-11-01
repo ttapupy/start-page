@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import {clsx} from 'clsx';
-import {twMerge} from 'tailwind-merge';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 import he from 'he';
-import {FeedCategory} from "@/common";
+import { FeedCategory } from "@/common";
 import PodcastPlayer from "@/app/components/PodcastPlayer";
 import CardHeader from "@/app/components/CardHeader";
 
@@ -24,16 +24,16 @@ interface IFeedCardProps {
 
 
 const FeedCard: React.FC<IFeedCardProps> = ({
-                                              feedLink,
-                                              feedTitle,
-                                              feedDescription,
-                                              category,
-                                              image,
-                                              podcast,
-                                              itemKey,
-                                              date,
-                                              handleHide
-                                            }) => {
+  feedLink,
+  feedTitle,
+  feedDescription,
+  category,
+  image,
+  podcast,
+  itemKey,
+  date,
+  handleHide
+}) => {
 
   const sectionClass = `bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100`
   const colorTypes: Record<FeedCategory, string> = {
@@ -65,15 +65,15 @@ const FeedCard: React.FC<IFeedCardProps> = ({
 
 
   const formatImage = (text: string | null | undefined) => {
-    let src = null
+    let src = ""
     let alt = ""
-    if (text == null) {
-      return {src, alt}
+    if (text == null || text == "") {
+      return { src, alt }
     }
-    src = text.match(/src=\"([\w\\\/\:\.]+)\"/)?.[1] || null
+    src = text.match(/src=\"([\w\\\/\:\.]+)\"/)?.[1] || ""
     alt = text.match(/alt=\"([\w\\\/\:\.,\s\']+)\"/)?.[1] || ""
 
-    return {src, alt}
+    return { src, alt }
   }
 
   const publishDate = !!date ? new Date(date) : null
@@ -94,35 +94,38 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   }
 
   return (
-      <section
-          id={itemKey}
-          className={twMerge(sectionClass,
-              clsx({
-                [colorTypes[category]]: true,
-                'opacity-0 [transition:ease-out_0s,_opacity_2000ms_ease-out_0s]': hidden
-              }))}
+    <section
+      id={itemKey}
+      className={twMerge(sectionClass,
+        clsx({
+          [colorTypes[category]]: true,
+          'opacity-0 [transition:ease-out_0s,_opacity_2000ms_ease-out_0s]': hidden
+        }))}
+    >
+      <CardHeader date={publishDate} handleClose={() => hideFeed()} />
+      <a
+        href={feedLink || '#'}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-3 mx-0 text-left font-semibold dark:font-500 hover:underline"
       >
-        <CardHeader date={publishDate} handleClose={() => hideFeed()}/>
-        <a
-            href={feedLink || '#'}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mb-3 mx-0 text-left font-semibold dark:font-500 hover:underline"
-        >
-          {formatText(feedTitle, true)}
-        </a>
+        {formatText(feedTitle, true)}
+      </a>
 
-        {image
-            ? <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
-              {/* @ts-ignore */}
-              <Image {...formatImage(feedDescription)} width="260" height="310" style={{objectFit: "contain"}}/>
-            </div>
-            : <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
-              <div className='overflow-clip break-words'>{formatText(feedDescription)}</div>
-              {!!podcast && <PodcastPlayer podcast={podcast} itemKey={itemKey}/>}
-            </div>
-        }
-      </section>
+      {image
+        ? <div
+          className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}
+          data-testid="image-container"
+        >
+          {/* @ts-ignore */}
+          <Image {...formatImage(feedDescription)} width="260" height="310" style={{ objectFit: "contain" }} />
+        </div>
+        : <div className={`my-0 mx-0 text-justify bg-opacity-50 dark:group-hover:bg-opacity-90`}>
+          <div className='overflow-clip break-words'>{formatText(feedDescription)}</div>
+          {!!podcast && <PodcastPlayer podcast={podcast} itemKey={itemKey} />}
+        </div>
+      }
+    </section>
   );
 }
 
