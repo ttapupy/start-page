@@ -15,7 +15,7 @@
 }
 
 body {
-  @apply bg-[#e3e3e3] bg-opacity-70 font-light_font text-lg text-black backdrop-blur backdrop-filter dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
+  @apply bg-[#efefef] bg-opacity-70 font-light_font text-lg text-black backdrop-blur backdrop-filter dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
 header {
