@@ -1,4 +1,5 @@
-import {xmlParser} from "@/app/services/xmlParser";
+import { xmlParser } from "@/app/services/xmlParser";
+import { SourceType } from "@/common"
 
 async function parseXMLResponse(response: Response) {
   if (response?.ok) {
@@ -15,24 +16,24 @@ async function parseXMLResponse(response: Response) {
   throw new Error('cannot fetch data');
 }
 
-function getFeed<T>(baseURL: string, topic: string): Promise<T> {
+function getFeed<T>(baseURL: string, topic: string, sourceKey: string): Promise<T> {
   // hourly update
-  return fetch(`https://${baseURL}/${encodeURI(topic)}`, {next: {revalidate: 3600}})
-      .then((response) => parseXMLResponse(response))
-      .catch((error) => {
-        console.log('network error:', error.message)
-        return null;
-      });
+  return fetch(`https://${baseURL}/${encodeURI(topic)}`, { next: { revalidate: 3600, tags: [sourceKey] } })
+    .then((response) => parseXMLResponse(response))
+    .catch((error) => {
+      console.log('network error:', error.message)
+      return null;
+    });
 }
 
-export async function getRssFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
-  const rssData = await getFeed<RssData>(baseURL, topic);
+export async function getRssFeed(source: SourceType, sourceKey: string): Promise<FeedItem[]> {
+  const rssData = await getFeed<RssData>(source.baseURL, source.path, sourceKey);
 
   return rssData?.['rss']?.['channel']?.['item'] || []
 }
 
-export async function getAtomFeed(baseURL: string, topic: string): Promise<FeedItem[]> {
-  const atomData = await getFeed<AtomData>(baseURL, topic);
+export async function getAtomFeed(source: SourceType, sourceKey: string): Promise<FeedItem[]> {
+  const atomData = await getFeed<AtomData>(source.baseURL, source.path, sourceKey);
 
   return atomData?.['feed']?.['item'] || []
 }

@@ -17,7 +17,8 @@ interface IFeedCardProps {
   category: FeedCategory;
   image?: boolean;
   podcast?: string | null;
-  itemKey: string;
+  sourceKey: string;
+  idx: number;
   date?: string;
   handleHide: (link: string) => any;
 }
@@ -30,7 +31,8 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   category,
   image,
   podcast,
-  itemKey,
+  sourceKey,
+  idx,
   date,
   handleHide
 }) => {
@@ -46,6 +48,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   const maxTextLength = 160
   const [hidden, setHidden] = React.useState(false)
   const delay = React.useRef<number | undefined>()
+  const itemKey = `${sourceKey}_${idx}`
 
   // parse just plain text for the safety and simplicity
   const formatText = (text: string | null | undefined, title = false) => {
@@ -86,12 +89,12 @@ const FeedCard: React.FC<IFeedCardProps> = ({
     }
   }, [])
 
-  const hideFeed = () => {
-    setHidden(true);
-    delay.current = window.setTimeout(() => {
-      handleHide(feedLink).then(() => setHidden(false));
-    }, 3000)
+  const hideFeed = async () => {
+    setHidden(true)
+    await handleHide(feedLink)
+    delay.current = window.setTimeout(() => setHidden(false), 1000)
   }
+
 
   return (
     <section
@@ -99,10 +102,10 @@ const FeedCard: React.FC<IFeedCardProps> = ({
       className={twMerge(sectionClass,
         clsx({
           [colorTypes[category]]: true,
-          'opacity-0 [transition:ease-out_0s,_opacity_2000ms_ease-out_0s]': hidden
+          'opacity-0 [transition:ease-out_0s,_opacity_500ms_ease-out__0s]': hidden
         }))}
     >
-      <CardHeader date={publishDate} handleClose={() => hideFeed()} />
+      <CardHeader date={publishDate} handleClose={hideFeed} />
       <a
         href={feedLink || '#'}
         target="_blank"
