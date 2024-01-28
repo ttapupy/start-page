@@ -1,11 +1,4 @@
 {
-  "itCafe": {
-    "baseURL": "itcafe.hu",
-    "name": "IT Café",
-    "path": "hirfolyam/anyagok/rss.xml",
-    "feedCategory": "TECH",
-    "feedType": "rss"
-  },
   "hwsw": {
     "baseURL": "hwsw.hu",
     "name": "HWSW",
@@ -27,13 +20,6 @@
     "feedCategory": "FRONTEND",
     "feedType": "rss"
   },
-  "cssTricks": {
-    "baseURL": "css-tricks.com",
-    "name": "css-tricks",
-    "path": "feed",
-    "feedCategory": "FRONTEND",
-    "feedType": "rss"
-  },
   "devTo": {
     "baseURL": "dev.to",
     "name": "DEV",
@@ -41,12 +27,13 @@
     "feedCategory": "IT",
     "feedType": "rss"
   },
-  "stackOverflow": {
-    "baseURL": "stackoverflow.com",
-    "name": "StackOverflow latest",
-    "path": "feeds?sort=newest",
-    "feedCategory": "FRONTEND",
-    "feedType": "atom"
+  "THN": {
+    "baseURL": "feeds.feedburner.com",
+    "name": "The Hacker News RSS Feeds",
+    "path": "TheHackersNews",
+    "feedCategory": "IT",
+    "feedType": "rss",
+    "testUrl": "thehackernews.com"
   },
   "levelUp": {
     "baseURL": "levelup.gitconnected.com",

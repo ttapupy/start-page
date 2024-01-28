@@ -11,7 +11,7 @@ import getStaticData from "@/app/api/staticdata";
 
 
 let selectedFeeds: string[] = [];
-const sourceFetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const ajv = new Ajv();
 
 const schema: JSONSchemaType<SourceType> = {

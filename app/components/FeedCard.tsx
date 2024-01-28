@@ -8,6 +8,7 @@ import he from 'he';
 import { FeedCategory } from "@/common";
 import PodcastPlayer from "@/app/components/PodcastPlayer";
 import CardHeader from "@/app/components/CardHeader";
+import { handleHide } from '../lib/actions';
 
 
 interface IFeedCardProps {
@@ -20,7 +21,6 @@ interface IFeedCardProps {
   sourceKey: string;
   idx: number;
   date?: string;
-  handleHide: (link: string) => any;
 }
 
 
@@ -33,8 +33,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   podcast,
   sourceKey,
   idx,
-  date,
-  handleHide
+  date
 }) => {
 
   const sectionClass = `bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100`
@@ -49,6 +48,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   const [hidden, setHidden] = React.useState(false)
   const delay = React.useRef<number | undefined>()
   const itemKey = `${sourceKey}_${idx}`
+  const expDays = 4
 
   // parse just plain text for the safety and simplicity
   const formatText = (text: string | null | undefined, title = false) => {
@@ -81,19 +81,20 @@ const FeedCard: React.FC<IFeedCardProps> = ({
 
   const publishDate = !!date ? new Date(date) : null
 
+
+
   React.useEffect(() => {
-    if (delay.current) {
-      return () => {
+    if (hidden) {
+      delay.current = window.setTimeout(() => handleHide(feedLink, sourceKey, expDays), 800)
+    }
+
+    return () => {
+      if (hidden) {
+        setHidden(false);
         window.clearTimeout(delay.current);
       }
     }
-  }, [])
-
-  const hideFeed = async () => {
-    setHidden(true)
-    await handleHide(feedLink)
-    delay.current = window.setTimeout(() => setHidden(false), 1000)
-  }
+  }, [feedLink, hidden, sourceKey])
 
 
   return (
@@ -102,10 +103,10 @@ const FeedCard: React.FC<IFeedCardProps> = ({
       className={twMerge(sectionClass,
         clsx({
           [colorTypes[category]]: true,
-          'opacity-0 [transition:ease-out_0s,_opacity_500ms_ease-out__0s]': hidden
+          'opacity-0 [transition:ease-out_0s,_opacity_1000ms_ease-out__0s]': hidden
         }))}
     >
-      <CardHeader date={publishDate} handleClose={hideFeed} />
+      <CardHeader date={publishDate} handleClose={() => setHidden(true)} />
       <a
         href={feedLink || '#'}
         target="_blank"
