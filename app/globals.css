@@ -15,11 +15,11 @@
 }
 
 body {
-  @apply bg-[#a8a8a8] bg-opacity-70 font-light_font text-lg text-black backdrop-blur backdrop-filter dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
+  @apply bg-wall font-light_font text-lg text-black dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
 header {
-  @apply flex justify-between;
+  @apply sticky top-0 z-[900] flex h-[4em] justify-between bg-[#a8a8a8] dark:bg-[#1b1e1d];
 }
 
 li.checkbox-menu {

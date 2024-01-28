@@ -46,13 +46,17 @@ export default async function Home() {
   async function onCheck(feeds: Record<string, boolean>) {
     "use server";
 
+    // After 90 days we reset this cookie
+    const keepDays = 90 * 24 * 60 * 60 * 1000
+
     selectedFeeds = Object.entries(feeds).filter(([_, value]) => value).map(([key, _]) => key)
     // @ts-ignore
     cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), {
       sameSite: 'strict',
       secure: true,
       httpOnly: true,
-      overwrite: true
+      overwrite: true,
+      expires: Date.now() + keepDays
     })
     revalidatePath("/")
   }
@@ -69,7 +73,7 @@ export default async function Home() {
         />
         <ThemeSwitcher />
       </header>
-      <main className="min-h-screen mx-0  md:mx-3 px-auto py-6">
+      <main className="min-h-screen mx-0  md:mx-3 px-auto py-6 dark:bg-[#1b1e1d] dark:bg-opacity-50">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
           <AudioPlaybackProvider>
             {selectedFeeds?.length

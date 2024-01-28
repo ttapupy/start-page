@@ -50,14 +50,14 @@
     "feedType": "rss",
     "image": true
   },
-  "szertar": {
-    "baseURL": "feeds.megaphone.fm",
-    "name": "Szertár podcast",
-    "path": "BETO8058051558",
+  "kavezo": {
+    "baseURL": "feeds.captivate.fm",
+    "name": "kávézó a világ végén",
+    "path": "kavezo-a-vilag-vegen",
     "feedCategory": "OUT",
     "feedType": "rss",
-    "testUrl": "szertar.com",
-    "testUrl2": "podtrac.com",
+    "testUrl": "radiocafe98.hu",
+    "testUrl2": "artwork.captivate.fm",
     "podcast": true
   }
 }

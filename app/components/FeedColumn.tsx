@@ -15,7 +15,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
   const hiddenNews = await getVisitedNews(sourceKey) as string[];
 
   // disallowing suspicious links and also filtering out hidden (by user) news
-  let regex = new RegExp(`^https?:\/\/(www\.)?${source.testUrl || source.testUrl2 || source.baseURL}.+$`);
+  let regex = new RegExp(`^https?:\/\/(www\.)?${source.testUrl || source.testUrl2 || source.baseURL}.*$`);
 
   let feedList: FeedItem[] = [];
 
@@ -26,10 +26,6 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
   feedList = await getFeed(source, sourceKey);
 
   feedList = filterFeedList(feedList);
-
-  if (!feedList?.length) {
-    return (<ErrorMessage />)
-  }
 
 
   const colorTypes: Record<FeedCategory, string> = {

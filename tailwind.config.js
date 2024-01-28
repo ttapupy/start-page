@@ -13,6 +13,7 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'wall': "url('../public/wall.jpg')",
       },
       colors: {
         'papirus': '#E0E0DE',
