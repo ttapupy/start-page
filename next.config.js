@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        serverActions: true,
-    },
     images: {
         remotePatterns: [
             {
@@ -11,7 +8,7 @@ const nextConfig = {
             },
         ],
     },
-    webpack(config, {isServer}) {
+    webpack(config, { isServer }) {
         if (!isServer) {
             config.resolve.fallback = {
                 ...config.resolve.fallback,

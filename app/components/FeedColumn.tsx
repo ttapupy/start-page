@@ -11,7 +11,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
 
   const listLength = 5;
   const category = source?.feedCategory || FeedCategory.DEFAULT;
-  const getText = (prop: FeedTag | undefined) => (prop?.['textValue'] || '');
+  const getText = (prop: FeedTag | GuidTag | undefined) => (prop?.['textValue'] || '');
   const hiddenNews = await getVisitedNews(sourceKey) as string[];
 
   // disallowing suspicious links and also filtering out hidden (by user) news
@@ -20,12 +20,16 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
   let feedList: FeedItem[] = [];
 
   function filterFeedList(feedList: FeedItem[]) {
-    return feedList?.filter((elem) => !elem['link'] || getText(elem?.['link'])?.match(regex)).filter(e => !e.link?.textValue || !hiddenNews.includes(e.link?.textValue)).slice(0, listLength)
+    return feedList?.filter((elem) => !elem['link'] || getText(elem?.['link'])?.match(regex)).filter(e => {
+      const guidOrLink = e.guid?.textValue ?? e.link?.textValue
+      return (!(e.guid?.textValue || e.link?.textValue) || !hiddenNews.includes(guidOrLink))
+    }).slice(0, listLength)
   }
 
   feedList = await getFeed(source, sourceKey);
 
   feedList = filterFeedList(feedList);
+  // feedList = feedList.slice(0, listLength);
 
 
   const colorTypes: Record<FeedCategory, string> = {
@@ -52,6 +56,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
                 sourceKey={sourceKey}
                 idx={idx}
                 feedLink={getText(item?.['link'])}
+                guid={getText(item?.['guid'])}
                 category={category}
                 feedTitle={getText(item?.['title'])}
                 feedDescription={getText(item?.['summary'])}

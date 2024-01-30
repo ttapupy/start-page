@@ -8,6 +8,11 @@ interface FeedTag {
   textValue: string;
 }
 
+interface GuidTag {
+  textValue: string;
+  isPermaLink?: "false" | "true";
+}
+
 
 interface FeedItem {
   title: FeedTag;
@@ -15,6 +20,7 @@ interface FeedItem {
   published?: FeedTag;
   summary: FeedTag;
   enclosure?: Enclosure;
+  guid?: GuidTag;
 }
 
 interface Channel {

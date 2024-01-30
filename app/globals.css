@@ -37,3 +37,15 @@ li.checkbox-menu:hover > input {
 audio {
   @apply rounded-full border border-stone-300 bg-stone-300 opacity-70 hover:opacity-100 !important;
 }
+
+figure:is(.dark .dark\:bg-zinc-950) .rhap_container {
+  @apply bg-zinc-950 !important;
+}
+
+figure:is(.dark .dark\:bg-zinc-950) .rhap_time {
+  @apply text-emerald-500;
+}
+
+figure .playing .rhap_play-pause-button {
+  @apply text-[#384ad2];
+}

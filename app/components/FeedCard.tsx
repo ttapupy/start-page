@@ -15,6 +15,7 @@ interface IFeedCardProps {
   feedLink: string;
   feedTitle: string;
   feedDescription: string;
+  guid?: string;
   category: FeedCategory;
   image?: boolean;
   podcast?: string | null;
@@ -28,6 +29,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   feedLink,
   feedTitle,
   feedDescription,
+  guid,
   category,
   image,
   podcast,
@@ -50,6 +52,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   const delay = React.useRef<number | undefined>()
   const itemKey = `${sourceKey}_${idx}`
   const expDays = 4
+  const guidOrLink = guid ?? feedLink
 
   // parse just plain text for the safety and simplicity
   const formatText = (text: string | null | undefined, title = false) => {
@@ -86,7 +89,8 @@ const FeedCard: React.FC<IFeedCardProps> = ({
 
   React.useEffect(() => {
     if (hidden) {
-      delay.current = window.setTimeout(() => handleHide(feedLink, sourceKey, expDays), 800)
+
+      delay.current = window.setTimeout(() => handleHide(guidOrLink, sourceKey, expDays), 800)
     }
 
     return () => {
@@ -95,7 +99,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
         window.clearTimeout(delay.current);
       }
     }
-  }, [feedLink, hidden, sourceKey])
+  }, [guidOrLink, hidden, sourceKey])
 
 
   return (

@@ -27,7 +27,7 @@ export async function handleHide(link: string, sourceKey: string, expDays: numbe
       sameSite: 'strict',
       secure: true,
       httpOnly: true,
-      overwrite: true,
+      // overwrite: true,
       expires: expirationDate
     })
 }
