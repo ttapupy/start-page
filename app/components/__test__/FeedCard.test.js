@@ -1,13 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react';
-import FeedCard from '../../components/FeedCard'
+import FeedCard from '../FeedCard'
 
-
-/*
-It does not work atm: Cannot find module 'private-next-rsc-action-proxy' from 'app/lib/actions.ts'
-Probably related to: https://github.com/vercel/next.js/issues/47448
-ToDo: upgrade
-*/
 
 const myFeed =
   { feedLink: "https://css-tricks.com/creating-a-clock-with-the-new-css-sin-and-cos-trigonometry-functions/", feedTitle: "Creating a Clock with the New CSS sin() and cos() Trigonometry Functions", category: "FRONTEND", itemKey: "cssTricks_4", date: "Wed, 08 Mar 2023 14:05:52 +0000" }
@@ -19,7 +13,6 @@ const myPodcast = {
 const myImage =
   { feedLink: "https://xkcd.com/2849/", feedTitle: "Under the Stars", category: "OUT", image: true, itemKey: "xkcd_0", date: "Wed, 01 Nov 2023 04:00:00 -0000", feedDescription: "" }
 
-const handleHide = jest.fn();
 
 
 it('should render feed title with link', () => {
