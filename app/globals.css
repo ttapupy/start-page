@@ -15,19 +15,19 @@
 }
 
 body {
-  @apply bg-wall font-light_font text-lg text-black dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
+  @apply bg-waves bg-cover bg-repeat-y font-light_font text-lg text-black dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
 header {
-  @apply sticky top-0 z-[900] flex h-[4em] justify-between bg-[#a8a8a8] dark:bg-[#1b1e1d];
+  @apply sticky top-0 z-[900] flex h-[4em] justify-between bg-stone-400 dark:bg-stone-800;
 }
 
 li.checkbox-menu {
-  @apply flex justify-between py-1 font-medium text-gray-600;
+  @apply flex justify-between py-1 font-medium text-neutral-700 hover:text-neutral-950 dark:text-neutral-200 dark:hover:text-neutral-50;
 }
 
 li.checkbox-menu > input {
-  @apply ml-2 rounded border-0 text-retro_green ring-0 ring-stone-400 hover:ring-1 focus:outline-2 focus:outline-offset-0 focus:outline-stone-500 focus:ring-0;
+  @apply ml-2 rounded border-0 text-retro_green ring-0 ring-neutral-400 hover:ring-1 focus:outline-2 focus:outline-offset-0 focus:outline-neutral-500 focus:ring-0;
 }
 
 li.checkbox-menu:hover > input {
@@ -38,11 +38,11 @@ audio {
   @apply rounded-full border border-stone-300 bg-stone-300 opacity-70 hover:opacity-100 !important;
 }
 
-figure:is(.dark .dark\:bg-zinc-950) .rhap_container {
-  @apply bg-zinc-950 !important;
+figure:is(.dark .dark\:bg-zinc-800) .rhap_container {
+  @apply bg-zinc-800 !important;
 }
 
-figure:is(.dark .dark\:bg-zinc-950) .rhap_time {
+figure:is(.dark .dark\:bg-zinc-800) .rhap_time {
   @apply text-emerald-500;
 }
 

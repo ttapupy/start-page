@@ -29,7 +29,7 @@
   },
   "THN": {
     "baseURL": "feeds.feedburner.com",
-    "name": "The Hacker News RSS Feeds",
+    "name": "The Hacker News",
     "path": "TheHackersNews",
     "feedCategory": "IT",
     "feedType": "rss",

@@ -2,46 +2,55 @@
 import * as React from 'react';
 import { useForm, FieldValues } from "react-hook-form";
 import Checkbox from './Checkbox';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge'
 import { SourceType } from "@/common";
 
-// For fun the behaviour of this "modal" is controlled by css
+
 export default function FeedSelector({ onCheck, selectedFeeds, sourceEntries }: {
   onCheck: (feeds: FieldValues) => Promise<void>,
   selectedFeeds: string[],
   sourceEntries: [string, SourceType][]
 }) {
 
-  const { handleSubmit, register } = useForm();
+  const { handleSubmit, register, reset } = useForm();
+  const modalRef = React.useRef<HTMLDialogElement>(null);
 
   const onSubmit = (data: FieldValues) => {
     onCheck(data)
-    setShowMenu(false)
+    modalRef.current?.close()
   }
 
-  const [showMenu, setShowMenu] = React.useState(false)
-  const navClass = 'absolute ml-4 mt-10 rounded inset-x-0 top-0 invisible bg-slate-300 delay-0 opacity-0 text-sm max-w-prose z-10 [transition:visibility_0s_ease-out_1000ms,_opacity_1000ms_ease-out_0s]'
+  const handleShowMenu = () => {
+    modalRef.current?.showModal()
+  }
 
+  const handleClose = () => {
+    modalRef.current?.close()
+    reset()
+  }
 
   return (
     <div className='relative w-64 ml-2'>
-      <button data-dropdown-toggle="menu" onClick={() => setShowMenu(!showMenu)} className="p-4 cursor-pointer"
+      <button data-dropdown-toggle="menu" onClick={handleShowMenu} className="p-4 cursor-pointer hover:text-green-300"
         id="burger">
-        {showMenu
-          ? <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-            stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          : <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-            stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>}
+        <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+          stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
       </button>
 
-      <nav
-        className={twMerge(navClass, clsx({ 'visible opacity-100 [transition:visibility_0s_ease-out_0s,_opacity_1000ms_ease-out_0s]': showMenu }))}
-        id='menu'>
+      <dialog
+        className={'absolute ml-4 mt-10 rounded inset-x-0 top-0 bg-neutral-100 dark:bg-neutral-800 text-sm max-w-prose z-10'}
+        id='menu'
+        ref={modalRef}
+      >
+        <section className={'text-left'}>
+          <button className="p-2 cursor-pointer hover:text-red-300" onClick={handleClose} title='close'>
+            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+              stroke="currentColor" className="w-6 h-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </section>
         <form key='feed-selector' onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center m-3">
           <ul>
             {sourceEntries.sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1).map(([key, value], idx) => {
@@ -60,7 +69,7 @@ export default function FeedSelector({ onCheck, selectedFeeds, sourceEntries }: 
             {'Save'}
           </button>
         </form>
-      </nav>
+      </dialog>
     </div>
   )
 }

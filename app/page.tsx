@@ -37,10 +37,16 @@ export default async function Home() {
   const cookieStore = cookies()
   const feedCookie = cookieStore.get(sourceCookieName)?.value
 
-  if (feedCookie && Array.isArray(JSON.parse(feedCookie))) {
-    selectedFeeds = JSON.parse(feedCookie) as string[]
+
+  // It's weird but this cookie does not work atm after reload with Firefox in production env
+  //ToDo: investigating
+
+  if (feedCookie) {
+    const feedCookieArray = await JSON.parse(feedCookie)
+    if (Array.isArray(feedCookieArray)) {
+      selectedFeeds = feedCookieArray as string[]
+    }
   } else if (!!sources && Object.keys(sources)) {
-    selectedFeeds = Object.keys(sources)
   }
 
   async function onCheck(feeds: Record<string, boolean>) {
@@ -54,7 +60,7 @@ export default async function Home() {
     cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), {
       sameSite: 'strict',
       secure: true,
-      httpOnly: true,
+      httpOnly: false,
       // overwrite: true,
       expires: Date.now() + keepDays
     })
@@ -73,7 +79,7 @@ export default async function Home() {
         />
         <ThemeSwitcher />
       </header>
-      <main className="min-h-screen mx-0  md:mx-3 px-auto py-6 dark:bg-[#1b1e1d] dark:bg-opacity-50">
+      <main className="min-h-screen mx-0 px-auto py-6 dark:bg-[#1b1e1d] bg-opacity-30 dark:bg-opacity-30">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
           <AudioPlaybackProvider>
             {selectedFeeds?.length

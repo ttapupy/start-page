@@ -33,7 +33,7 @@ const PodcastPlayer = ({ podcast, itemKey }: IPodcastPlayer) => {
   }, [audioIsActive]);
 
   return (
-    <figure className='pt-4 text-center dark:bg-zinc-950' data-testid='audio-player-container'>
+    <figure className='pt-4 text-center dark:bg-zinc-800' data-testid='audio-player-container'>
       <AudioPlayer
         ref={audioRef}
         className={`${audioIsActive ? 'mx-auto playing' : 'mx-auto'}`}

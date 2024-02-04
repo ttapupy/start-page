@@ -40,7 +40,7 @@ export default async function FeedBoxWrapper({ source, sourceKey }: { source: So
     [FeedCategory.IT]: 'border-retro_greener text-retro_greener dark:border-retro_green dark:text-retro_green'
   }
 
-  const spanClass = "bg-gray-50 dark:bg-gray-100 text-gray-800 text-xs font-bold ml-0 mr-2 px-2.5 py-0.5 rounded dark:bg-stone-900 dark:text-stone-300 border dark:border-2 border-gray-500"
+  const spanClass = "bg-gray-50 dark:bg-gray-100 text-gray-800 text-xs font-bold ml-0 mr-2 px-2.5 pt-0.5 pb-1 rounded dark:bg-stone-900 dark:text-stone-300 border dark:border-2 border-gray-500"
 
   return (
     <div className="flex-[0_0_auto] min-w-[320px] max-w-[100%] pb-[5em] px-auto mr-auto">

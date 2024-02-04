@@ -38,7 +38,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   date
 }) => {
 
-  const sectionClass = `relative top-0 right-0 hover:-left-px hover:top-[-3px] shadow-[2px_2px_rgba(0,0,0,0.4)] hover:shadow-[3px_6px_rgba(0,0,0,0.4)] [transition:top_300ms_ease-in-out] [transition:left_300ms_ease-in-out] bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group dark:hover:text-crt_amber filter-none opacity-100 bg-opacity-100`
+  const sectionClass = `relative top-0 right-0 hover:-left-px hover:top-[-3px] shadow-[2px_2px_rgba(0,0,0,0.4)] hover:shadow-[3px_6px_rgba(0,0,0,0.4)] [transition:top_300ms_ease-in-out] [transition:left_300ms_ease-in-out] bg-papirus_light dark:bg-crt_background flex flex-col max-w-[420px] justify-between items-stretch rounded-lg dark:rounded border-2 border-transparent mb-3 px-4 py-4 hover:border-blue-300 hover:bg-neutral-50 dark:hover:bg-crt_background_darker group opacity-100 dark:hover:text-crt_amber hover:bg-opacity-90 dark:hover:bg-opacity-90 bg-opacity-60 dark:bg-opacity-60 backdrop-filter backdrop-blur-lg`
 
   const colorTypes: Record<FeedCategory, string> = {
     [FeedCategory.DEFAULT]: 'border-zinc-400',
