@@ -1,11 +1,18 @@
 'use client'
 
+import * as React from 'react';
+
 interface ICardHeaderProps {
   date: Date | null;
   handleClose: () => any;
 }
 
 const CardHeader = ({ date, handleClose }: ICardHeaderProps) => {
+  const focusRef = React.useRef<HTMLElement | null>(null)
+
+  React.useLayoutEffect(() => {
+    focusRef.current && focusRef.current.focus()
+  }, [])
 
   return (
     <div className="flex flex-row-reverse justify-between mb-2">
@@ -17,7 +24,7 @@ const CardHeader = ({ date, handleClose }: ICardHeaderProps) => {
         </svg>
       </button>
       {!!date &&
-        <small className='font-mono text-left text-slate-600 dark:text-slate-300'>
+        <small ref={focusRef} className='font-mono text-left text-slate-600 dark:text-slate-300'>
           {date.toISOString().substring(0, 10)}
         </small>
       }

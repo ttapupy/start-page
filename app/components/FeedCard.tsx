@@ -89,7 +89,6 @@ const FeedCard: React.FC<IFeedCardProps> = ({
 
   React.useEffect(() => {
     if (hidden) {
-
       delay.current = window.setTimeout(() => handleHide(guidOrLink, sourceKey, expDays), 800)
     }
 
