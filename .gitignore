@@ -20,6 +20,7 @@
 *.pem
 .vscode
 .idea
+pnpm-lock.yaml
 
 # debug
 npm-debug.log*
