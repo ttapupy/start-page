@@ -8,6 +8,7 @@ import AudioPlaybackProvider from "@/app/components/AudioPlaybackProvider";
 import { SourceType } from "@/common";
 import Ajv, { JSONSchemaType } from 'ajv';
 import getStaticData from "@/app/api/staticdata";
+import Header from './components/Header';
 
 
 let selectedFeeds: string[] = [];
@@ -71,14 +72,11 @@ export default async function Home() {
 
   return (
     <>
-      <header>
-        <FeedSelector
-          onCheck={onCheck}
-          selectedFeeds={selectedFeeds}
-          sourceEntries={Object.entries(sources).filter(([_, value]) => validate(value))}
-        />
-        <ThemeSwitcher />
-      </header>
+      <Header
+        onCheck={onCheck}
+        selectedFeeds={selectedFeeds}
+        sourceEntries={Object.entries(sources).filter(([_, value]) => validate(value))}
+      />
       <main className="min-h-screen mx-0 px-auto py-6 dark:bg-[#1b1e1d] bg-opacity-30 dark:bg-opacity-30">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly text-center px-2">
           <AudioPlaybackProvider>
@@ -92,7 +90,7 @@ export default async function Home() {
                 )
               :
               <article
-                className="border-2 border-b-crt_foreground rounded p-2"
+                className="border-2 fixed top-[8em] border-b-crt_foreground rounded p-2"
                 title="You can select feeds from the above menu."
               >
                 {'There is no source selected.'}

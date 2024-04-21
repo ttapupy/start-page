@@ -18,8 +18,8 @@ body {
   @apply bg-waves bg-cover bg-repeat-y font-light_font text-lg text-black dark:bg-[#1b1e1d] dark:font-dark_font dark:text-stone-200 md:text-base;
 }
 
-header {
-  @apply sticky top-0 z-[900] flex h-[4em] justify-between bg-stone-400 dark:bg-stone-800;
+.scroll-down {
+  transform: translate3d(0, -100%, 0);
 }
 
 li.checkbox-menu {
