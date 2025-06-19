@@ -1,4 +1,4 @@
-import FeedColumn from "./components/FeedColumn";
+import FeedColumn from "./components/FeedBoxWrapper";
 import { sourceCookieName } from "@/app/api/staticdata";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
