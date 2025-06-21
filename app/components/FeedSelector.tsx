@@ -28,7 +28,7 @@ export default function FeedSelector({
 
   const handleShowMenu = () => {
     if (mounted) {
-      setIsOpen(true);
+      setIsOpen(!isOpen);
     }
   };
 
@@ -104,11 +104,14 @@ export default function FeedSelector({
       </button>
 
       {isOpen && (
-        <div className="fixed top-[4em] left-0 right-0 bottom-0 z-50 bg-black/50 backdrop-blur-sm" onClick={handleBackdropClick}>
-          <div className="absolute left-0 top-[-3em] ml-4 mt-10 max-w-prose rounded bg-neutral-100 p-4 text-sm shadow-xl dark:bg-neutral-800">
+        <div
+          className="fixed top-[4em] left-0 right-0 bottom-0 z-50 bg-black/50 backdrop-blur-sm"
+          onClick={handleBackdropClick}
+        >
+          <div className="absolute left-0 top-[-3em] ml-4 mt-10 max-w-prose rounded bg-neutral-100 p-4 text-sm shadow-xl dark:bg-gray-900">
             <section className="mb-2 flex justify-end">
               <button
-                className="cursor-pointer p-2 hover:text-red-300"
+                className="cursor-pointer p-2 hover:text-red-300 -mr-3"
                 onClick={handleClose}
                 title="close"
               >

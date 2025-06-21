@@ -47,7 +47,7 @@ const Header: FC<HeaderProps> = ({ onCheck, selectedFeeds, sourceEntries }) => {
   return (
     <>
       <header
-        className={`fixed top-0 z-[900] flex h-[4em] w-full justify-between bg-stone-400 transition-all duration-500 dark:bg-stone-800 ${
+        className={`fixed top-0 z-[900] flex h-[4em] w-full justify-between bg-gray-400 transition-all duration-500 dark:bg-gray-800 ${
           scrollDown && "scroll-down"
         }`}
       >

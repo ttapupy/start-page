@@ -55,7 +55,7 @@ export default async function Home() {
           validate(value),
         )}
       />
-      <main className="px-auto mx-0 min-h-screen bg-opacity-30 py-6 dark:bg-[#1b1e1d] dark:bg-opacity-30">
+      <main className="px-auto mx-0 min-h-screen bg-opacity-30 py-8 dark:bg-[#1b1e1d] dark:bg-opacity-30">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly px-2 text-center">
           <AudioPlaybackProvider>
             {selectedFeeds?.length ? (
