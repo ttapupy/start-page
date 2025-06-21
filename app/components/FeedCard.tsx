@@ -9,6 +9,7 @@ import { FeedCategory } from "@/common";
 import PodcastPlayer from "@/app/components/PodcastPlayer";
 import CardHeader from "@/app/components/CardHeader";
 import { handleHide } from "../lib/actions";
+import FeedCardSkeleton from "./FeedCardSkeleton";
 
 interface IFeedCardProps {
   feedLink: string;
@@ -102,51 +103,56 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   }, [guidOrLink, hidden, sourceKey]);
 
   return (
-    <section
-      id={itemKey}
-      className={twMerge(
-        sectionClass,
-        clsx({
-          [colorTypes[category]]: true,
-          "opacity-0 [transition:ease-out_0s,_opacity_1000ms_ease-out__0s]":
-            hidden,
-        })
-      )}
-    >
-      <CardHeader date={publishDate} handleClose={() => setHidden(true)} />
-      <a
-        href={feedLink || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="dark:font-500 mx-0 mb-3 text-left font-semibold hover:underline"
-      >
-        {formatText(feedTitle, true)}
-      </a>
-
-      {image ? (
-        <div
-          className={`mx-0 my-0 bg-opacity-50 text-justify dark:group-hover:bg-opacity-90`}
-          data-testid="image-container"
-        >
-          {/* @ts-ignore */}
-          <Image
-            {...formatImage(feedDescription)}
-            width="260"
-            height="310"
-            style={{ objectFit: "contain" }}
-          />
-        </div>
+    <>
+      {hidden ? (
+        <FeedCardSkeleton count={1} />
       ) : (
-        <div
-          className={`mx-0 my-0 bg-opacity-50 text-justify dark:group-hover:bg-opacity-90`}
+        <section
+          id={itemKey}
+          className={twMerge(
+            sectionClass,
+            clsx({
+              [colorTypes[category]]: true,
+              "opacity-0 [transition:ease-out_0s,_opacity_1000ms_ease-out__0s]":
+                hidden,
+            })
+          )}
         >
-          <div className="overflow-clip break-words">
-            {formatText(feedDescription)}
-          </div>
-          {!!podcast && <PodcastPlayer podcast={podcast} itemKey={itemKey} />}
-        </div>
-      )}
-    </section>
+          <CardHeader date={publishDate} handleClose={() => setHidden(true)} />
+          <a
+            href={feedLink || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dark:font-500 mx-0 mb-3 text-left font-semibold hover:underline"
+          >
+            {formatText(feedTitle, true)}
+          </a>
+
+          {image ? (
+            <div
+              className={`mx-0 my-0 bg-opacity-50 text-justify dark:group-hover:bg-opacity-90`}
+              data-testid="image-container"
+            >
+              {/* @ts-ignore */}
+              <Image
+                {...formatImage(feedDescription)}
+                width="260"
+                height="310"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+          ) : (
+            <div
+              className={`mx-0 my-0 bg-opacity-50 text-justify dark:group-hover:bg-opacity-90`}
+            >
+              <div className="overflow-clip break-words">
+                {formatText(feedDescription)}
+              </div>
+              {!!podcast && <PodcastPlayer podcast={podcast} itemKey={itemKey} />}
+            </div>
+          )}
+        </section>)}
+    </>
   );
 };
 

@@ -1,12 +1,12 @@
 import { sourceCookieName } from "@/app/api/staticdata";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
 import AudioPlaybackProvider from "@/app/components/AudioPlaybackProvider";
 import { SourceType } from "@/common";
 import Ajv, { JSONSchemaType } from "ajv";
 import getStaticData from "@/app/api/staticdata";
 import Header from "./components/Header";
 import FeedBoxLoader from "@/app/components/FeedBoxLoader";
+import { onCheck } from "./lib/actions";
 
 let selectedFeeds: string[] = [];
 
@@ -41,25 +41,6 @@ export default async function Home() {
       selectedFeeds = feedCookieArray as string[];
     }
   } else if (!!sources && Object.keys(sources)) {
-  }
-
-  async function onCheck(feeds: Record<string, boolean>) {
-    "use server";
-
-    // After 90 days we reset this cookie
-    const keepDays = 90 * 24 * 60 * 60 * 1000;
-
-    selectedFeeds = Object.entries(feeds)
-      .filter(([_, value]) => value)
-      .map(([key, _]) => key);
-    (await cookies()).set(sourceCookieName, JSON.stringify(selectedFeeds), {
-      sameSite: "strict",
-      secure: true,
-      httpOnly: false,
-      // overwrite: true,
-      expires: Date.now() + keepDays,
-    });
-    revalidatePath("/");
   }
 
   if (!sources)

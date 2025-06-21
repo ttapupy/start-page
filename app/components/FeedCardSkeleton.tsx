@@ -10,11 +10,6 @@ const skeletonCardClass = twMerge(
 export default function FeedCardSkeleton({ count = 5 }: { count?: number }) {
   return (
     <div className="px-auto mr-auto min-w-[320px] max-w-[100%] flex-[0_0_auto] pb-[5em]">
-      {/* Header skeleton */}
-      <div className="mb-4 flex justify-start">
-        <div className="h-6 w-24 rounded bg-gray-300 dark:bg-gray-700" />
-      </div>
-
       {/* Skeleton cards */}
       {Array.from({ length: count }).map((_, idx) => (
         <div key={idx} className={skeletonCardClass}>

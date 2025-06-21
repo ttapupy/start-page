@@ -1,7 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { visitedFeedCookieName } from "@/app/api/staticdata";
+import { visitedFeedCookieName, sourceCookieName } from "@/app/api/staticdata";
+import { revalidatePath } from "next/cache";
 
 export async function getVisitedNews(sourceKey: string) {
   const cookieStore = await cookies();
@@ -37,4 +38,21 @@ export async function handleHide(
       expires: expirationDate,
     },
   );
+}
+
+export async function onCheck(feeds: Record<string, boolean>) {
+  // After 90 days we reset this cookie
+  const keepDays = 90 * 24 * 60 * 60 * 1000;
+
+  const selectedFeeds = Object.entries(feeds)
+    .filter(([_, value]) => value)
+    .map(([key, _]) => key);
+
+  (await cookies()).set(sourceCookieName, JSON.stringify(selectedFeeds), {
+    sameSite: "strict",
+    secure: true,
+    httpOnly: false,
+    expires: Date.now() + keepDays,
+  });
+  revalidatePath("/");
 }
