@@ -145,9 +145,9 @@ const FeedCard: React.FC<IFeedCardProps> = ({
             <div
               className={`mx-0 my-0 bg-opacity-50 text-justify dark:group-hover:bg-opacity-90`}
             >
-              <div className="overflow-clip break-words">
+              <article className="overflow-clip break-words">
                 {formatText(feedDescription)}
-              </div>
+              </article>
               {!!podcast && <PodcastPlayer podcast={podcast} itemKey={itemKey} />}
             </div>
           )}

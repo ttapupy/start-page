@@ -47,29 +47,26 @@ export default function FeedSelector({
   // Close modal on escape key
   React.useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         handleClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
   if (!mounted) {
     return (
       <div className="relative ml-2 w-64">
-        <button
-          className="cursor-pointer p-4 hover:text-green-300"
-          id="burger"
-        >
+        <button className="cursor-pointer p-4 hover:text-green-300" id="burger">
           <svg
             className="h-6 w-6"
             fill="none"
@@ -107,11 +104,8 @@ export default function FeedSelector({
       </button>
 
       {isOpen && (
-        <div
-          className="fixed inset-0 z-50"
-          onClick={handleBackdropClick}
-        >
-          <div className="absolute left-0 top-0 ml-4 mt-10 max-w-prose rounded bg-neutral-100 p-4 text-sm shadow-xl dark:bg-neutral-800">
+        <div className="fixed top-[4em] left-0 right-0 bottom-0 z-50 bg-black/50 backdrop-blur-sm" onClick={handleBackdropClick}>
+          <div className="absolute left-0 top-[-3em] ml-4 mt-10 max-w-prose rounded bg-neutral-100 p-4 text-sm shadow-xl dark:bg-neutral-800">
             <section className="mb-2 flex justify-end">
               <button
                 className="cursor-pointer p-2 hover:text-red-300"
@@ -141,7 +135,9 @@ export default function FeedSelector({
               <ul>
                 {sourceEntries
                   .sort((a, b) =>
-                    a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1
+                    a[1].name?.toLowerCase() > b[1].name?.toLowerCase()
+                      ? 1
+                      : -1,
                   )
                   .map(([key, value], idx) => {
                     const name = value.name;

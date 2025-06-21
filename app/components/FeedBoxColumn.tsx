@@ -1,10 +1,11 @@
 import { getFeed } from "../services/fetchFeed";
-import { SourceType, FeedCategory, FeedType } from "@/common";
+import { SourceType, FeedCategory } from "@/common";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import ErrorMessage from "./ErrorMessage";
 import FeedCard from "./FeedCard";
 import { getVisitedNews } from "../lib/actions";
+import { filterFeedList, getText } from "../utils/feedBoxUtils";
 
 export default async function FeedBoxColumn({
   source,
@@ -15,34 +16,13 @@ export default async function FeedBoxColumn({
 }) {
   const listLength = 5;
   const category = source?.feedCategory || FeedCategory.DEFAULT;
-  const getText = (prop: FeedTag | GuidTag | undefined) =>
-    prop?.["textValue"] || "";
   const hiddenNews = (await getVisitedNews(sourceKey)) as string[];
 
-  // disallowing suspicious links and also filtering out hidden (by user) news
-  let regex = new RegExp(
-    `^https?:\/\/(www\.)?${source.testUrl || source.testUrl2 || source.baseURL
-    }.*$`
-  );
-
-  let feedList: FeedItem[] = [];
-
-  function filterFeedList(feedList: FeedItem[]) {
-    return feedList
-      ?.filter((elem) => !elem["link"] || getText(elem?.["link"])?.match(regex))
-      .filter((e) => {
-        const guidOrLink = e.guid?.textValue ?? e.link?.textValue;
-        return (
-          !(e.guid?.textValue || e.link?.textValue) ||
-          !hiddenNews.includes(guidOrLink)
-        );
-      })
-      .slice(0, listLength);
-  }
+  let feedList: FeedItem[];
 
   feedList = await getFeed(source, sourceKey);
 
-  feedList = filterFeedList(feedList);
+  feedList = filterFeedList(feedList, source, hiddenNews, listLength);
 
   const colorTypes: Record<FeedCategory, string> = {
     [FeedCategory.DEFAULT]: "border-zinc-400 text-zinc-400",

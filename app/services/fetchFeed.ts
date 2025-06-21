@@ -20,9 +20,6 @@ export async function getFeed<T>(
   source: SourceType,
   sourceKey: string,
 ): Promise<FeedItem[]> {
-  setTimeout(() => {
-    console.log("Várunk...");
-  }, 4000);
 
   // hourly update
   try {
