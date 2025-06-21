@@ -6,7 +6,7 @@ import ErrorMessage from "./ErrorMessage";
 import FeedCard from "./FeedCard";
 import { getVisitedNews } from "../lib/actions";
 
-export default async function FeedBoxWrapper({
+export default async function FeedBoxColumn({
   source,
   sourceKey,
 }: {
@@ -21,8 +21,7 @@ export default async function FeedBoxWrapper({
 
   // disallowing suspicious links and also filtering out hidden (by user) news
   let regex = new RegExp(
-    `^https?:\/\/(www\.)?${
-      source.testUrl || source.testUrl2 || source.baseURL
+    `^https?:\/\/(www\.)?${source.testUrl || source.testUrl2 || source.baseURL
     }.*$`
   );
 
@@ -44,7 +43,6 @@ export default async function FeedBoxWrapper({
   feedList = await getFeed(source, sourceKey);
 
   feedList = filterFeedList(feedList);
-  // feedList = feedList.slice(0, listLength);
 
   const colorTypes: Record<FeedCategory, string> = {
     [FeedCategory.DEFAULT]: "border-zinc-400 text-zinc-400",

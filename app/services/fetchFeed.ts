@@ -1,7 +1,7 @@
 import { xmlParser } from "@/app/services/xmlParser";
 import { SourceType, FeedType } from "@/common";
 
-async function parseXMLResponse(response: Response) {
+export async function parseXMLResponse(response: Response) {
   if (response?.ok) {
     const news = await response.text();
     let result = null;
@@ -18,13 +18,17 @@ async function parseXMLResponse(response: Response) {
 
 export async function getFeed<T>(
   source: SourceType,
-  sourceKey: string
+  sourceKey: string,
 ): Promise<FeedItem[]> {
+  setTimeout(() => {
+    console.log("Várunk...");
+  }, 4000);
+
   // hourly update
   try {
     const response = await fetch(
       `https://${source.baseURL}/${encodeURI(source.path)}`,
-      { next: { revalidate: 3600, tags: [sourceKey] } }
+      { next: { revalidate: 3600, tags: [sourceKey] } },
     );
 
     if (source.feedType === FeedType.RSS) {

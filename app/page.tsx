@@ -1,4 +1,3 @@
-import FeedColumn from "./components/FeedBoxWrapper";
 import { sourceCookieName } from "@/app/api/staticdata";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
@@ -7,6 +6,7 @@ import { SourceType } from "@/common";
 import Ajv, { JSONSchemaType } from "ajv";
 import getStaticData from "@/app/api/staticdata";
 import Header from "./components/Header";
+import FeedBoxLoader from "@/app/components/FeedBoxLoader";
 
 let selectedFeeds: string[] = [];
 
@@ -35,9 +35,6 @@ export default async function Home() {
   const cookieStore = await cookies();
   const feedCookie = cookieStore.get(sourceCookieName)?.value;
 
-  // It's weird but this cookie does not work atm after reload with Firefox in production env
-  //ToDo: investigating
-
   if (feedCookie) {
     const feedCookieArray = await JSON.parse(feedCookie);
     if (Array.isArray(feedCookieArray)) {
@@ -55,8 +52,7 @@ export default async function Home() {
     selectedFeeds = Object.entries(feeds)
       .filter(([_, value]) => value)
       .map(([key, _]) => key);
-    // @ts-ignore
-    cookies().set(sourceCookieName, JSON.stringify(selectedFeeds), {
+    (await cookies()).set(sourceCookieName, JSON.stringify(selectedFeeds), {
       sameSite: "strict",
       secure: true,
       httpOnly: false,
@@ -75,7 +71,7 @@ export default async function Home() {
         onCheck={onCheck}
         selectedFeeds={selectedFeeds}
         sourceEntries={Object.entries(sources).filter(([_, value]) =>
-          validate(value)
+          validate(value),
         )}
       />
       <main className="px-auto mx-0 min-h-screen bg-opacity-30 py-6 dark:bg-[#1b1e1d] dark:bg-opacity-30">
@@ -85,14 +81,13 @@ export default async function Home() {
               Object.entries(sources)
                 .filter(
                   ([key, value]) =>
-                    selectedFeeds?.includes(key) && validate(value)
+                    selectedFeeds?.includes(key) && validate(value),
                 )
                 .sort((a, b) =>
-                  a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1
+                  a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1,
                 )
                 .map(([key, value]) => (
-                  /* @ts-expect-error Async Server Component */
-                  <FeedColumn key={key} sourceKey={key} source={value} />
+                  <FeedBoxLoader key={key} sourceKey={key} source={value} />
                 ))
             ) : (
               <article

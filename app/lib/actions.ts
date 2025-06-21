@@ -6,7 +6,7 @@ import { visitedFeedCookieName } from "@/app/api/staticdata";
 export async function getVisitedNews(sourceKey: string) {
   const cookieStore = await cookies();
   const visitedCookie = cookieStore.get(
-    `${visitedFeedCookieName}${sourceKey}`
+    `${visitedFeedCookieName}${sourceKey}`,
   )?.value;
 
   if (visitedCookie && Array.isArray(JSON.parse(visitedCookie))) {
@@ -19,15 +19,14 @@ export async function getVisitedNews(sourceKey: string) {
 export async function handleHide(
   link: string,
   sourceKey: string,
-  expDays: number
+  expDays: number,
 ) {
   const today = new Date();
   let expirationDate = new Date();
   // After some days we reset this cookie
   expirationDate.setDate(today.getDate() + expDays);
   const hiddenNews = (await getVisitedNews(sourceKey)) as string[];
-  // @ts-ignore
-  cookies().set(
+  (await cookies()).set(
     `${visitedFeedCookieName}${sourceKey}`,
     JSON.stringify([...hiddenNews, link]),
     {
@@ -36,6 +35,6 @@ export async function handleHide(
       httpOnly: true,
       // overwrite: true,
       expires: expirationDate,
-    }
+    },
   );
 }

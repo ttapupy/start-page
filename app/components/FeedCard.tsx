@@ -46,7 +46,7 @@ const FeedCard: React.FC<IFeedCardProps> = ({
   };
   const maxTextLength = 160;
   const [hidden, setHidden] = React.useState(false);
-  const delay = React.useRef<number | undefined>();
+  const delay = React.useRef<number | undefined>(undefined);
   const itemKey = `${sourceKey}_${idx}`;
   const expDays = 4;
   const guidOrLink = guid ?? feedLink;
