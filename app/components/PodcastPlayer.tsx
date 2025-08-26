@@ -1,11 +1,10 @@
-"use client"
+"use client";
 
-import AudioPlayer from 'react-h5-audio-player';
+import AudioPlayer from "react-h5-audio-player";
 import H5AudioPlayer from "react-h5-audio-player";
-import 'react-h5-audio-player/lib/styles.css';
+import "react-h5-audio-player/lib/styles.css";
 import AudioPlaybackContext from "@/app/lib/AudioPlaybackContext";
 import * as React from "react";
-
 
 interface IPodcastPlayer {
   podcast: string;
@@ -13,14 +12,14 @@ interface IPodcastPlayer {
 }
 
 const PodcastPlayer = ({ podcast, itemKey }: IPodcastPlayer) => {
-
-  const { playingAudioId, setPlayingAudioId } = React.useContext(AudioPlaybackContext)
+  const { playingAudioId, setPlayingAudioId } =
+    React.useContext(AudioPlaybackContext);
   const audioIsActive = playingAudioId === itemKey;
-  const audioRef = React.useRef<H5AudioPlayer>(null)
+  const audioRef = React.useRef<H5AudioPlayer>(null);
 
   const onPlay = () => {
-    setPlayingAudioId(itemKey)
-  }
+    setPlayingAudioId(itemKey);
+  };
 
   React.useEffect(() => {
     if (audioRef.current?.audio?.current) {
@@ -33,15 +32,18 @@ const PodcastPlayer = ({ podcast, itemKey }: IPodcastPlayer) => {
   }, [audioIsActive]);
 
   return (
-    <figure className='pt-4 text-center dark:bg-zinc-800' data-testid='audio-player-container'>
+    <figure
+      className="pt-4 text-center dark:bg-zinc-800"
+      data-testid="audio-player-container"
+    >
       <AudioPlayer
         ref={audioRef}
-        className={`${audioIsActive ? 'mx-auto playing' : 'mx-auto'}`}
+        className={`${audioIsActive ? "playing mx-auto" : "mx-auto"}`}
         src={podcast}
         onPlay={onPlay}
       />
     </figure>
-  )
+  );
 };
 
 export default PodcastPlayer;

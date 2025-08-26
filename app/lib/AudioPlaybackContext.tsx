@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 
@@ -9,8 +9,7 @@ interface IAudioPBContext {
 
 const AudioPlaybackContext = React.createContext<IAudioPBContext>({
   playingAudioId: null,
-  setPlayingAudioId: () => {
-  }
+  setPlayingAudioId: () => {},
 });
 
 export default AudioPlaybackContext;

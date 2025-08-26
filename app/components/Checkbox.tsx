@@ -1,7 +1,6 @@
-"use client"
-import React, { FC } from 'react';
+"use client";
+import React, { FC } from "react";
 import { UseFormRegister, FieldValues } from "react-hook-form";
-
 
 export interface ICheckboxProps {
   selectedFeeds: string[];
@@ -10,14 +9,15 @@ export interface ICheckboxProps {
   register: UseFormRegister<FieldValues>;
 }
 
-
-const Checkbox: FC<ICheckboxProps> = ({ selectedFeeds, name, id, register }) => {
-
+const Checkbox: FC<ICheckboxProps> = ({
+  selectedFeeds,
+  name,
+  id,
+  register,
+}) => {
   return (
     <>
-      <label htmlFor={id}>
-        {name}
-      </label>
+      <label htmlFor={id}>{name}</label>
       <input
         defaultChecked={selectedFeeds.includes(id)}
         type="checkbox"
@@ -25,9 +25,8 @@ const Checkbox: FC<ICheckboxProps> = ({ selectedFeeds, name, id, register }) => 
         id={id}
         {...register(id)}
       />
-
     </>
   );
-}
+};
 
 export default Checkbox;

@@ -1,75 +1,171 @@
-"use client"
-import * as React from 'react';
+"use client";
+import * as React from "react";
 import { useForm, FieldValues } from "react-hook-form";
-import Checkbox from './Checkbox';
+import Checkbox from "./Checkbox";
 import { SourceType } from "@/common";
 
-
-export default function FeedSelector({ onCheck, selectedFeeds, sourceEntries }: {
-  onCheck: (feeds: FieldValues) => Promise<void>,
-  selectedFeeds: string[],
-  sourceEntries: [string, SourceType][]
+export default function FeedSelector({
+  onCheck,
+  selectedFeeds,
+  sourceEntries,
+}: {
+  onCheck: (feeds: FieldValues) => Promise<void>;
+  selectedFeeds: string[];
+  sourceEntries: [string, SourceType][];
 }) {
-
   const { handleSubmit, register, reset } = useForm();
-  const modalRef = React.useRef<HTMLDialogElement>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
 
-  const onSubmit = (data: FieldValues) => {
-    onCheck(data)
-    modalRef.current?.close()
-  }
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const onSubmit = async (data: FieldValues) => {
+    await onCheck(data);
+    setIsOpen(false);
+  };
 
   const handleShowMenu = () => {
-    modalRef.current?.showModal()
-  }
+    if (mounted) {
+      setIsOpen(!isOpen);
+    }
+  };
 
   const handleClose = () => {
-    modalRef.current?.close()
-    reset()
+    setIsOpen(false);
+    reset();
+  };
+
+  // Close modal when clicking outside
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  };
+
+  // Close modal on escape key
+  React.useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!mounted) {
+    return (
+      <div className="relative ml-2 w-64">
+        <button className="cursor-pointer p-4 hover:text-green-300" id="burger">
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    );
   }
 
   return (
-    <div className='relative w-64 ml-2'>
-      <button data-dropdown-toggle="menu" onClick={handleShowMenu} className="p-4 cursor-pointer hover:text-green-300"
-        id="burger">
-        <svg className="w-6 h-6" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-          stroke="currentColor" viewBox="0 0 24 24">
+    <div className="relative ml-2 w-64">
+      <button
+        onClick={handleShowMenu}
+        className="cursor-pointer p-4 hover:text-green-300"
+        id="burger"
+      >
+        <svg
+          className="h-6 w-6"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
           <path d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
 
-      <dialog
-        className={'absolute ml-4 mt-10 rounded inset-x-0 top-0 bg-neutral-100 dark:bg-neutral-800 text-sm max-w-prose z-10'}
-        id='menu'
-        ref={modalRef}
-      >
-        <section className={'text-left'}>
-          <button className="p-2 cursor-pointer hover:text-red-300" onClick={handleClose} title='close'>
-            <svg fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-              stroke="currentColor" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </section>
-        <form key='feed-selector' onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center m-3">
-          <ul>
-            {sourceEntries.sort((a, b) => a[1].name?.toLowerCase() > b[1].name?.toLowerCase() ? 1 : -1).map(([key, value], idx) => {
-              const name = value.name
-              return (
-                <li key={idx} className="checkbox-menu">
-                  <Checkbox selectedFeeds={selectedFeeds} name={name} id={key} register={register} />
-                </li>
-              )
-            })}
-          </ul>
-          <button
-            type="submit"
-            className="w-20 bg-retro_blue hover:bg-sky-700 disabled:bg-gray-500 inline-flex items-center justify-center rounded mt-4 py-2 px-5 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-4 xl:px-5"
-          >
-            {'Save'}
-          </button>
-        </form>
-      </dialog>
+      {isOpen && (
+        <div
+          className="fixed top-[4em] left-0 right-0 bottom-0 z-50 bg-black/50 backdrop-blur-sm"
+          onClick={handleBackdropClick}
+        >
+          <div className="absolute left-0 top-[-3em] ml-4 mt-10 max-w-prose rounded bg-neutral-100 p-4 text-sm shadow-xl dark:bg-gray-900">
+            <section className="mb-2 flex justify-end">
+              <button
+                className="cursor-pointer p-2 hover:text-red-300 -mr-3"
+                onClick={handleClose}
+                title="close"
+              >
+                <svg
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-6 w-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </section>
+            <form
+              key="feed-selector"
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex flex-col items-center"
+            >
+              <ul>
+                {sourceEntries
+                  .sort((a, b) =>
+                    a[1].name?.toLowerCase() > b[1].name?.toLowerCase()
+                      ? 1
+                      : -1,
+                  )
+                  .map(([key, value], idx) => {
+                    const name = value.name;
+                    return (
+                      <li key={idx} className="checkbox-menu">
+                        <Checkbox
+                          selectedFeeds={selectedFeeds}
+                          name={name}
+                          id={key}
+                          register={register}
+                        />
+                      </li>
+                    );
+                  })}
+              </ul>
+              <button
+                type="submit"
+                className="mt-4 inline-flex w-20 items-center justify-center rounded bg-retro_blue px-5 py-2 text-center text-base font-normal text-white hover:bg-sky-700 hover:bg-opacity-90 disabled:bg-gray-500 lg:px-4 xl:px-5"
+              >
+                {"Save"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
