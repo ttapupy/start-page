@@ -5,7 +5,10 @@ import {
   visitedFeedCookieName,
   sourceCookieName,
   customFeedCookieName,
+  hiddenFeedCookieName,
+  cookieExpirationMs,
   parseCustomFeeds,
+  parseHiddenFeeds,
 } from "@/app/api/staticdata";
 import { revalidatePath } from "next/cache";
 import {
@@ -51,9 +54,6 @@ export async function handleHide(
 }
 
 export async function onCheck(feeds: Record<string, boolean>) {
-  // After 90 days we reset this cookie
-  const keepDays = 90 * 24 * 60 * 60 * 1000;
-
   const selectedFeeds = Object.entries(feeds)
     .filter(([_, value]) => value)
     .map(([key, _]) => key);
@@ -62,7 +62,7 @@ export async function onCheck(feeds: Record<string, boolean>) {
     sameSite: "strict",
     secure: true,
     httpOnly: false,
-    expires: Date.now() + keepDays,
+    expires: Date.now() + cookieExpirationMs,
   });
   revalidatePath("/");
 }
@@ -70,28 +70,67 @@ export async function onCheck(feeds: Record<string, boolean>) {
 export async function addCustomFeed(
   rawUrl: string,
 ): Promise<AddCustomFeedResult> {
-  const validation = await validateCustomFeedUrl(rawUrl);
-  if (!validation.ok) {
-    return validation;
+  try {
+    const validation = await validateCustomFeedUrl(rawUrl);
+    if (!validation.ok) {
+      return validation;
+    }
+
+    const { source } = validation;
+
+    const cookieStore = await cookies();
+    const current = parseCustomFeeds(
+      cookieStore.get(customFeedCookieName)?.value,
+    );
+    const nextKey = resolveCustomFeedKey(source, current);
+    const merged = { ...current, [nextKey]: source };
+
+    cookieStore.set(customFeedCookieName, JSON.stringify(merged), {
+      sameSite: "strict",
+      secure: true,
+      httpOnly: true,
+      expires: Date.now() + cookieExpirationMs,
+    });
+
+    revalidatePath("/");
+    return { ok: true, feedKey: nextKey, source };
+  } catch (error) {
+    console.error("addCustomFeed error:", error);
+    return { ok: false, error: "Failed to validate the feed." };
+  }
+}
+
+export async function removeFeed(feedKey: string, isCustom: boolean) {
+  const cookieStore = await cookies();
+
+  if (isCustom) {
+    const current = parseCustomFeeds(
+      cookieStore.get(customFeedCookieName)?.value,
+    );
+    const { [feedKey]: _, ...remaining } = current;
+    cookieStore.set(customFeedCookieName, JSON.stringify(remaining), {
+      sameSite: "strict",
+      secure: true,
+      httpOnly: true,
+      expires: Date.now() + cookieExpirationMs,
+    });
+  } else {
+    const hiddenFeeds = parseHiddenFeeds(
+      cookieStore.get(hiddenFeedCookieName)?.value,
+    );
+    if (!hiddenFeeds.includes(feedKey)) {
+      cookieStore.set(
+        hiddenFeedCookieName,
+        JSON.stringify([...hiddenFeeds, feedKey]),
+        {
+          sameSite: "strict",
+          secure: true,
+          httpOnly: true,
+          expires: Date.now() + cookieExpirationMs,
+        },
+      );
+    }
   }
 
-  const { source } = validation;
-
-  const cookieStore = await cookies();
-  const current = parseCustomFeeds(
-    cookieStore.get(customFeedCookieName)?.value,
-  );
-  const nextKey = resolveCustomFeedKey(source, current);
-  const merged = { ...current, [nextKey]: source };
-
-  const keepDays = 90 * 24 * 60 * 60 * 1000;
-  cookieStore.set(customFeedCookieName, JSON.stringify(merged), {
-    sameSite: "strict",
-    secure: true,
-    httpOnly: true,
-    expires: Date.now() + keepDays,
-  });
-
   revalidatePath("/");
-  return { ok: true, feedKey: nextKey, source };
 }

@@ -5,6 +5,8 @@ import { SourceType } from "@/common";
 export const sourceCookieName = "startPageSources";
 export const visitedFeedCookieName = "startPageRead";
 export const customFeedCookieName = "startPageCustomFeeds";
+export const hiddenFeedCookieName = "startPageHiddenFeeds";
+export const cookieExpirationMs = 90 * 24 * 60 * 60 * 1000;
 
 async function getStaticData(): Promise<Record<string, SourceType>> {
   const filePath = path.join(process.cwd(), "json/sources.json");
@@ -48,6 +50,28 @@ export function mergeSources(
   customSources: Record<string, SourceType>,
 ): Record<string, SourceType> {
   return { ...staticSources, ...customSources };
+}
+
+export function parseHiddenFeeds(rawCookieValue: string | undefined): string[] {
+  if (!rawCookieValue) return [];
+
+  try {
+    const parsed = JSON.parse(rawCookieValue);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter((key) => typeof key === "string");
+  } catch {
+    return [];
+  }
+}
+
+export function filterHiddenSources(
+  sources: Record<string, SourceType>,
+  hiddenKeys: string[],
+): Record<string, SourceType> {
+  const hiddenSet = new Set(hiddenKeys);
+  return Object.fromEntries(
+    Object.entries(sources).filter(([key]) => !hiddenSet.has(key)),
+  );
 }
 
 export default getStaticData;

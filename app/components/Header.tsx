@@ -4,60 +4,49 @@ import * as React from "react";
 import type { FC } from "react";
 import FeedSelector from "./FeedSelector";
 import ThemeSwitcher from "./ThemeSwitcher";
-import type { FieldValues } from "react-hook-form";
 import { SourceType } from "@/common";
 import AddFeedForm from "./AddFeedForm";
 
 interface HeaderProps {
-  onCheck: (feeds: FieldValues) => Promise<void>;
+  onCheck: (feeds: Record<string, boolean>) => Promise<void>;
   onAddFeed: (url: string) => Promise<
     | { ok: true; feedKey: string; source: SourceType }
     | { ok: false; error: string }
   >;
+  onRemoveFeed: (feedKey: string, isCustom: boolean) => Promise<void>;
   selectedFeeds: string[];
+  customFeedKeys: Set<string>;
   sourceEntries: [string, SourceType][];
 }
 
 const Header: FC<HeaderProps> = ({
   onCheck,
   onAddFeed,
+  onRemoveFeed,
   selectedFeeds,
+  customFeedKeys,
   sourceEntries,
 }) => {
   const downScroll = React.useRef(false);
   const prevScrollPosition = React.useRef(0);
   const [scrollDown, setScrollDown] = React.useState(false);
   const [showAddFeed, setShowAddFeed] = React.useState(false);
-  const [feedUrl, setFeedUrl] = React.useState("");
-  const [addError, setAddError] = React.useState("");
   const [addSuccess, setAddSuccess] = React.useState("");
-  const [isAddingFeed, setIsAddingFeed] = React.useState(false);
   const [newlyAddedFeedKey, setNewlyAddedFeedKey] = React.useState<string | null>(null);
 
   const handleToggleAddFeed = () => {
-    setAddError("");
     setAddSuccess("");
     setShowAddFeed((prev) => !prev);
   };
 
-  const handleFeedUrlChange = (value: string) => {
-    setFeedUrl(value);
+  const handleCloseAddFeed = () => {
+    setShowAddFeed(false);
   };
 
-  const handleAddFeedSubmit = async () => {
-    setAddError("");
-    setAddSuccess("");
-    setIsAddingFeed(true);
-    const result = await onAddFeed(feedUrl);
-    setIsAddingFeed(false);
-    if (!result.ok) {
-      setAddError(result.error);
-      return;
-    }
-    setFeedUrl("");
+  const handleAddFeedSuccess = (feedKey: string) => {
     setAddSuccess("Feed registered.");
     setShowAddFeed(false);
-    setNewlyAddedFeedKey(result.feedKey);
+    setNewlyAddedFeedKey(feedKey);
   };
 
   const handleHighlightCleared = () => {
@@ -106,19 +95,19 @@ const Header: FC<HeaderProps> = ({
         <div className="flex items-center gap-2">
           <FeedSelector
             onCheck={onCheck}
+            onRemoveFeed={onRemoveFeed}
             selectedFeeds={selectedFeeds}
+            customFeedKeys={customFeedKeys}
             sourceEntries={sourceEntries}
             forceOpenWithHighlight={newlyAddedFeedKey}
             onHighlightCleared={handleHighlightCleared}
           />
           <AddFeedForm
-            feedUrl={feedUrl}
             isOpen={showAddFeed}
-            isLoading={isAddingFeed}
-            error={addError}
             onToggle={handleToggleAddFeed}
-            onChange={handleFeedUrlChange}
-            onSubmit={handleAddFeedSubmit}
+            onClose={handleCloseAddFeed}
+            onSubmit={onAddFeed}
+            onSuccess={handleAddFeedSuccess}
           />
         </div>
         <ThemeSwitcher />

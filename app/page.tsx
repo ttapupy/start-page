@@ -1,8 +1,11 @@
 import {
   sourceCookieName,
   customFeedCookieName,
+  hiddenFeedCookieName,
   parseCustomFeeds,
+  parseHiddenFeeds,
   mergeSources,
+  filterHiddenSources,
 } from "@/app/api/staticdata";
 import { cookies } from "next/headers";
 import AudioPlaybackProvider from "@/app/components/AudioPlaybackProvider";
@@ -11,7 +14,7 @@ import Ajv, { JSONSchemaType } from "ajv";
 import getStaticData from "@/app/api/staticdata";
 import Header from "./components/Header";
 import FeedBoxLoader from "@/app/components/FeedBoxLoader";
-import { addCustomFeed, onCheck } from "./lib/actions";
+import { addCustomFeed, onCheck, removeFeed } from "./lib/actions";
 
 let selectedFeeds: string[] = [];
 
@@ -40,9 +43,13 @@ export default async function Home() {
   const cookieStore = await cookies();
   const feedCookie = cookieStore.get(sourceCookieName)?.value;
   const customFeedCookie = cookieStore.get(customFeedCookieName)?.value;
+  const hiddenFeedCookie = cookieStore.get(hiddenFeedCookieName)?.value;
 
   const customSources = parseCustomFeeds(customFeedCookie);
-  const sources = mergeSources(staticSources, customSources);
+  const hiddenFeeds = parseHiddenFeeds(hiddenFeedCookie);
+  const customFeedKeys = new Set(Object.keys(customSources));
+  const allSources = mergeSources(staticSources, customSources);
+  const sources = filterHiddenSources(allSources, hiddenFeeds);
 
   if (feedCookie) {
     const feedCookieArray = await JSON.parse(feedCookie);
@@ -60,12 +67,14 @@ export default async function Home() {
       <Header
         onCheck={onCheck}
         onAddFeed={addCustomFeed}
+        onRemoveFeed={removeFeed}
         selectedFeeds={selectedFeeds}
+        customFeedKeys={customFeedKeys}
         sourceEntries={Object.entries(sources).filter(([_, value]) =>
           validate(value),
         )}
       />
-      <main className="px-auto mx-0 min-h-screen bg-opacity-30 py-8 dark:bg-[#1b1e1d] dark:bg-opacity-30">
+      <main className="px-auto mx-0 min-h-screen bg-opacity-30 pb-8 pt-[5em] dark:bg-[#1b1e1d] dark:bg-opacity-30">
         <div className="mb-32 flex flex-row flex-wrap items-stretch justify-evenly px-2 text-center">
           <AudioPlaybackProvider>
             {selectedFeeds?.length ? (
