@@ -29,6 +29,7 @@ export default function FeedSelector({
   const listRef = React.useRef<HTMLUListElement>(null);
   const modalRef = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const lastHandledHighlightKeyRef = React.useRef<string | null>(null);
 
   const defaultValues = React.useMemo(() => {
     const values: Record<string, boolean> = {};
@@ -56,19 +57,22 @@ export default function FeedSelector({
   }, []);
 
   React.useEffect(() => {
-    if (forceOpenWithHighlight && mounted) {
-      setIsOpen(true);
-      setHighlightedKey(forceOpenWithHighlight);
-      setValue(forceOpenWithHighlight, true);
-      handleCheckboxChange();
+    if (!forceOpenWithHighlight || !mounted) return;
+    if (forceOpenWithHighlight === lastHandledHighlightKeyRef.current) return;
 
-      const timer = setTimeout(() => {
-        setHighlightedKey(null);
-        onHighlightCleared?.();
-      }, 3000);
+    lastHandledHighlightKeyRef.current = forceOpenWithHighlight;
+    setIsOpen(true);
+    setHighlightedKey(forceOpenWithHighlight);
+    setValue(forceOpenWithHighlight, true);
+    handleCheckboxChange();
 
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      setHighlightedKey(null);
+      onHighlightCleared?.();
+      lastHandledHighlightKeyRef.current = null;
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, [forceOpenWithHighlight, mounted, setValue, onHighlightCleared, handleCheckboxChange]);
 
   React.useEffect(() => {

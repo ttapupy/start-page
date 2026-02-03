@@ -82,6 +82,15 @@ export async function addCustomFeed(
     const current = parseCustomFeeds(
       cookieStore.get(customFeedCookieName)?.value,
     );
+
+    const alreadyRegistered = Object.entries(current).find(
+      ([_, existing]) =>
+        existing.baseURL === source.baseURL && existing.path === source.path,
+    );
+    if (alreadyRegistered) {
+      return { ok: false, error: "This feed is already registered." };
+    }
+
     const nextKey = resolveCustomFeedKey(source, current);
     const merged = { ...current, [nextKey]: source };
 
