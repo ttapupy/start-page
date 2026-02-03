@@ -26,6 +26,7 @@ module.exports = {
         'retro_orange': '#DA925E',
         'crt_background': 'rgb(10, 9, 9)',
         'crt_background_darker': 'hsl(109, 16%, 8%)',
+        'crt_card': 'rgb(28, 28, 31)',
         'crt_foreground': 'hsl(159, 12%, 85%)',
         'crt_amber': 'hsl(48, 19%, 87%)',
       },
