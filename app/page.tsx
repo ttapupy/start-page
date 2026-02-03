@@ -6,7 +6,7 @@ import Ajv, { JSONSchemaType } from "ajv";
 import getStaticData from "@/app/api/staticdata";
 import Header from "./components/Header";
 import FeedBoxLoader from "@/app/components/FeedBoxLoader";
-import { onCheck } from "./lib/actions";
+import { addCustomFeed, onCheck } from "./lib/actions";
 
 let selectedFeeds: string[] = [];
 
@@ -50,6 +50,7 @@ export default async function Home() {
     <>
       <Header
         onCheck={onCheck}
+        onAddFeed={addCustomFeed}
         selectedFeeds={selectedFeeds}
         sourceEntries={Object.entries(sources).filter(([_, value]) =>
           validate(value),
