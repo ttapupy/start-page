@@ -46,10 +46,10 @@ export default function FeedSelector({
     reset(defaultValues);
   }, [defaultValues, reset]);
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = React.useCallback(() => {
     const values = getValues();
     onCheck(values);
-  };
+  }, [getValues, onCheck]);
 
   React.useEffect(() => {
     setMounted(true);
@@ -69,7 +69,7 @@ export default function FeedSelector({
 
       return () => clearTimeout(timer);
     }
-  }, [forceOpenWithHighlight, mounted, setValue, onHighlightCleared]);
+  }, [forceOpenWithHighlight, mounted, setValue, onHighlightCleared, handleCheckboxChange]);
 
   React.useEffect(() => {
     if (isOpen && highlightedKey && listRef.current) {
