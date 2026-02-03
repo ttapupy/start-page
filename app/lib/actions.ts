@@ -1,8 +1,18 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { visitedFeedCookieName, sourceCookieName } from "@/app/api/staticdata";
+import {
+  visitedFeedCookieName,
+  sourceCookieName,
+  customFeedCookieName,
+  parseCustomFeeds,
+} from "@/app/api/staticdata";
 import { revalidatePath } from "next/cache";
+import {
+  AddCustomFeedResult,
+  resolveCustomFeedKey,
+  validateCustomFeedUrl,
+} from "@/app/lib/customFeedValidation";
 
 export async function getVisitedNews(sourceKey: string) {
   const cookieStore = await cookies();
@@ -55,4 +65,33 @@ export async function onCheck(feeds: Record<string, boolean>) {
     expires: Date.now() + keepDays,
   });
   revalidatePath("/");
+}
+
+export async function addCustomFeed(
+  rawUrl: string,
+): Promise<AddCustomFeedResult> {
+  const validation = await validateCustomFeedUrl(rawUrl);
+  if (!validation.ok) {
+    return validation;
+  }
+
+  const { source } = validation;
+
+  const cookieStore = await cookies();
+  const current = parseCustomFeeds(
+    cookieStore.get(customFeedCookieName)?.value,
+  );
+  const nextKey = resolveCustomFeedKey(source, current);
+  const merged = { ...current, [nextKey]: source };
+
+  const keepDays = 90 * 24 * 60 * 60 * 1000;
+  cookieStore.set(customFeedCookieName, JSON.stringify(merged), {
+    sameSite: "strict",
+    secure: true,
+    httpOnly: true,
+    expires: Date.now() + keepDays,
+  });
+
+  revalidatePath("/");
+  return { ok: true, feedKey: nextKey, source };
 }
