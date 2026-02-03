@@ -31,6 +31,8 @@ const Header: FC<HeaderProps> = ({
   const [feedUrl, setFeedUrl] = React.useState("");
   const [addError, setAddError] = React.useState("");
   const [addSuccess, setAddSuccess] = React.useState("");
+  const [isAddingFeed, setIsAddingFeed] = React.useState(false);
+  const [newlyAddedFeedKey, setNewlyAddedFeedKey] = React.useState<string | null>(null);
 
   const handleToggleAddFeed = () => {
     setAddError("");
@@ -45,15 +47,29 @@ const Header: FC<HeaderProps> = ({
   const handleAddFeedSubmit = async () => {
     setAddError("");
     setAddSuccess("");
+    setIsAddingFeed(true);
     const result = await onAddFeed(feedUrl);
+    setIsAddingFeed(false);
     if (!result.ok) {
       setAddError(result.error);
       return;
     }
     setFeedUrl("");
-    setAddSuccess("Feed saved.");
+    setAddSuccess("Feed registered.");
     setShowAddFeed(false);
+    setNewlyAddedFeedKey(result.feedKey);
   };
+
+  const handleHighlightCleared = () => {
+    setNewlyAddedFeedKey(null);
+  };
+
+  React.useEffect(() => {
+    if (addSuccess) {
+      const timer = setTimeout(() => setAddSuccess(""), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [addSuccess]);
 
   React.useEffect(() => {
     function handleScroll() {
@@ -92,10 +108,14 @@ const Header: FC<HeaderProps> = ({
             onCheck={onCheck}
             selectedFeeds={selectedFeeds}
             sourceEntries={sourceEntries}
+            forceOpenWithHighlight={newlyAddedFeedKey}
+            onHighlightCleared={handleHighlightCleared}
           />
           <AddFeedForm
             feedUrl={feedUrl}
             isOpen={showAddFeed}
+            isLoading={isAddingFeed}
+            error={addError}
             onToggle={handleToggleAddFeed}
             onChange={handleFeedUrlChange}
             onSubmit={handleAddFeedSubmit}
@@ -103,12 +123,10 @@ const Header: FC<HeaderProps> = ({
         </div>
         <ThemeSwitcher />
       </header>
-      {(addError || addSuccess) && (
+      {addSuccess && (
         <div className="fixed top-[4em] left-0 z-[901] w-full px-4">
           <div className="mx-auto w-fit rounded bg-neutral-100 px-3 py-2 text-sm shadow dark:bg-gray-900">
-            <span className={addError ? "text-red-500" : "text-green-500"}>
-              {addError || addSuccess}
-            </span>
+            <span className="text-green-500">{addSuccess}</span>
           </div>
         </div>
       )}

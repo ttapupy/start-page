@@ -1,4 +1,9 @@
-import { sourceCookieName } from "@/app/api/staticdata";
+import {
+  sourceCookieName,
+  customFeedCookieName,
+  parseCustomFeeds,
+  mergeSources,
+} from "@/app/api/staticdata";
 import { cookies } from "next/headers";
 import AudioPlaybackProvider from "@/app/components/AudioPlaybackProvider";
 import { SourceType } from "@/common";
@@ -30,10 +35,14 @@ const schema: JSONSchemaType<SourceType> = {
 };
 
 export default async function Home() {
-  const sources: Record<string, SourceType> = await getStaticData();
+  const staticSources: Record<string, SourceType> = await getStaticData();
   const validate = ajv.compile(schema);
   const cookieStore = await cookies();
   const feedCookie = cookieStore.get(sourceCookieName)?.value;
+  const customFeedCookie = cookieStore.get(customFeedCookieName)?.value;
+
+  const customSources = parseCustomFeeds(customFeedCookie);
+  const sources = mergeSources(staticSources, customSources);
 
   if (feedCookie) {
     const feedCookieArray = await JSON.parse(feedCookie);
@@ -43,7 +52,7 @@ export default async function Home() {
   } else if (!!sources && Object.keys(sources)) {
   }
 
-  if (!sources)
+  if (!staticSources)
     return <div>Failed to load the source file. Please try again later.</div>;
 
   return (

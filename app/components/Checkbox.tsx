@@ -7,6 +7,7 @@ export interface ICheckboxProps {
   name: string;
   id: string;
   register: UseFormRegister<FieldValues>;
+  isHighlighted?: boolean;
 }
 
 const Checkbox: FC<ICheckboxProps> = ({
@@ -14,10 +15,16 @@ const Checkbox: FC<ICheckboxProps> = ({
   name,
   id,
   register,
+  isHighlighted,
 }) => {
   return (
     <>
-      <label htmlFor={id}>{name}</label>
+      <label
+        htmlFor={id}
+        className={isHighlighted ? "rounded bg-yellow-200 px-1 dark:bg-yellow-600" : ""}
+      >
+        {name}
+      </label>
       <input
         defaultChecked={selectedFeeds.includes(id)}
         type="checkbox"

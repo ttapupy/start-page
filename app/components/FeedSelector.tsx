@@ -4,22 +4,52 @@ import { useForm, FieldValues } from "react-hook-form";
 import Checkbox from "./Checkbox";
 import { SourceType } from "@/common";
 
+interface FeedSelectorProps {
+  onCheck: (feeds: FieldValues) => Promise<void>;
+  selectedFeeds: string[];
+  sourceEntries: [string, SourceType][];
+  forceOpenWithHighlight?: string | null;
+  onHighlightCleared?: () => void;
+}
+
 export default function FeedSelector({
   onCheck,
   selectedFeeds,
   sourceEntries,
-}: {
-  onCheck: (feeds: FieldValues) => Promise<void>;
-  selectedFeeds: string[];
-  sourceEntries: [string, SourceType][];
-}) {
-  const { handleSubmit, register, reset } = useForm();
+  forceOpenWithHighlight,
+  onHighlightCleared,
+}: FeedSelectorProps) {
+  const { handleSubmit, register, reset, setValue } = useForm();
   const [isOpen, setIsOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
+  const [highlightedKey, setHighlightedKey] = React.useState<string | null>(null);
+  const listRef = React.useRef<HTMLUListElement>(null);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  React.useEffect(() => {
+    if (forceOpenWithHighlight && mounted) {
+      setIsOpen(true);
+      setHighlightedKey(forceOpenWithHighlight);
+      setValue(forceOpenWithHighlight, true);
+
+      const timer = setTimeout(() => {
+        setHighlightedKey(null);
+        onHighlightCleared?.();
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [forceOpenWithHighlight, mounted, setValue, onHighlightCleared]);
+
+  React.useEffect(() => {
+    if (isOpen && highlightedKey && listRef.current) {
+      const element = listRef.current.querySelector(`[data-feed-key="${highlightedKey}"]`);
+      element?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [isOpen, highlightedKey]);
 
   const onSubmit = async (data: FieldValues) => {
     await onCheck(data);
@@ -135,7 +165,7 @@ export default function FeedSelector({
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col items-center"
             >
-              <ul>
+              <ul ref={listRef}>
                 {sourceEntries
                   .sort((a, b) =>
                     a[1].name?.toLowerCase() > b[1].name?.toLowerCase()
@@ -145,12 +175,17 @@ export default function FeedSelector({
                   .map(([key, value], idx) => {
                     const name = value.name;
                     return (
-                      <li key={idx} className="checkbox-menu">
+                      <li
+                        key={idx}
+                        className="checkbox-menu"
+                        data-feed-key={key}
+                      >
                         <Checkbox
                           selectedFeeds={selectedFeeds}
                           name={name}
                           id={key}
                           register={register}
+                          isHighlighted={highlightedKey === key}
                         />
                       </li>
                     );
